@@ -36,7 +36,7 @@ Other related graph-theoretic notions:
   Prove that $S$ is an independent set on $G$ iff $V - S$ is a vertex cover on $G$.
 ]
 
-Another interesting fact is that the number of maximum (in fact, maximal too) independent sets is $3^(n/3) << 2^n$. Can you think of graphs for which this is attained?
+Another interesting fact is that the maximum number of maximum (in fact, maximal too) independent sets is $3^(n/3) << 2^n$. Can you think of graphs for which this is attained?
 
 A question of Claude Shannon (1956) concerns "worst-case information theory": How much more efficient are words than letters? If one were to communicate with $k$-letter words, $|V| = n^k$, and 2 words $(alpha_1 dots alpha_k)$, $(beta_1, dots beta_k)$ would be ambiguous if and only if they are not the same, yet for all positions $1 <= ell <= k$, $alpha_ell$ and $beta_ell$ are ambiguous (or the same). Drawing edges between such words, we get $G^k$. Graph theorists call it the "strong graph product," denoted by $times.square$, applied $k$ times.
 
@@ -282,7 +282,7 @@ We will build towards a proof of the last theorem. The easy bit is to believe th
   $ (x or overline(y) or z) and (overline(x) or y or overline(z)) and dots $
   is satisfied. Three literals in each clause are joined by ORs with negations allowed. Clauses themselves are joined by ANDs.
 
-  *1-in-3SAT* is also NP-complete. It asks if there is a boolean assignment that makes exactly one of the ORs in each clause true.
+  *1-in-3SAT* is also NP-complete. It asks if there is a boolean assignment that makes exactly one of the literals in each OR clause true.
 
   *$d$-POLYPOS* asks if given a degree-$d$ multivariate polynomial ($d$ is a fixed number, so no representational issues here), is it true that $forall x in RR^n, P(x) > 0$.
 ]
@@ -305,7 +305,7 @@ We will build towards a proof of the last theorem. The easy bit is to believe th
   4-POLYPOS is NP-hard.
 ]
 #proof[
-  Same proof, except we embed 3-in-1-SAT.
+  Same proof, except we embed 1-in-3SAT.
   This time we only need $(x_1+(1-x_2)+x_3-1)^2$.
 ]
 
@@ -343,7 +343,7 @@ Here, $arrow.l.double$ holds always as $P(x)=P_h (x,1)>0$.
 
 $=>$ is tricky. Let's try the contrapositive.
 $ exists (x,y) != 0 "such" P_h (x,y) <= 0. $
-We wish to conclude $exists z != 0$, $P(z) <= 0$.
+We wish to conclude $exists z$, $P(z) <= 0$.
 This is indeed fine if $y != 0$ incidentally.
 $ P(z:= x/y) = (P_h (x,y))/y^d <= 0. $
 

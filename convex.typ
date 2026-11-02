@@ -8,7 +8,7 @@ So far, we have seen that an attractive property of convex functions is that loc
 = First-Order Conditions for Local Minimization
 
 #definition[
-	$d$ is a descent direction of $f$ at $x$ if there exists $overline(alpha) > 0$ such that $f(x+alpha d) < f(d)$ for all $alpha in (0,overline(alpha))$.
+	$d$ is a descent direction of $f$ at $x$ if there exists $overline(alpha) > 0$ such that $f(x+alpha d) < f(x)$ for all $alpha in (0,overline(alpha))$.
 ]
 
 #claim[
@@ -33,7 +33,7 @@ The converse is false. Consider $f(x)=-x^2$; then at $0$ any non-zero direction 
 #proof[
 	Say $nabla f(x)!= 0$; then $angle(nabla f(x),-nabla f(x)) < 0$. Hence $-nabla f(x) slash norm(nabla f(x))$ is a descent direction.
 
-	Hence there exists $overline(alpha)>0$ such that for all $epsilon < overline(alpha) $, there exists $x' in B(x,epsilon)$, namely $ x' = x + epsilon (nabla f(x))/norm(nabla f(x)), $ such that $f(x') < f(x)$. Hence $x$ is not a local min.
+	Hence there exists $overline(alpha)>0$ such that for all $0 < epsilon < overline(alpha) $, there exists $x' in B(x,epsilon)$, namely $ x' = x - epsilon (nabla f(x))/norm(nabla f(x)), $ such that $f(x') < f(x)$. Hence $x$ is not a local min.
 ]
 
 To summarize all this, we have:
@@ -59,10 +59,10 @@ Now, let's do the constrained case. We have dealt with non-convex functions so f
 #proof[
 	Say there exists $x in K$, $angle(nabla f(overline(x)),x-overline(x)) < 0$. Then consider $ y=(1-lambda)overline(x)+lambda x=overline(x)+lambda(x-overline(x)) in K. $
 	Now, by Taylor's theorem,
-	$f(y)=f(x)+lambda angle(nabla f(overline(x)),x-overline(x))+r(lambda,x,overline(x))$ where $r(lambda,x,overline(x))=o(lambda)$.
+	$f(y)=f(overline(x))+lambda angle(nabla f(overline(x)),x-overline(x))+r(lambda,x,overline(x))$ where $r(lambda,x,overline(x))=o(lambda)$.
 	Then there exists $overline(lambda)>0$ such that for all $0<lambda<overline(lambda)$, $|r(lambda,x,overline(x))/lambda| < 1/2 |angle(nabla f(overline(x)),x-overline(x))|$.
-	For all such $lambda$'s, we have $ f(y) <= f(x)+1/2 angle(nabla f(overline(x)),x-overline(x)) < f(x). $
-	Thus, there does not exist an $epsilon>0$ such that $f(y)>=f(x) forall y in B(x,epsilon)$, because $lambda(x-overline(x))$ can be made arbitrarily small, yet $f(overline(x)+lambda(x-overline(x)))<f(x)$.
+	For all such $lambda$'s, we have $ f(y) <= f(overline(x))+lambda/2 angle(nabla f(overline(x)),x-overline(x)) < f(x). $
+	Thus, there does not exist an $epsilon>0$ such that $f(y)>=f(overline(x)) forall y in B(overline(x),epsilon)$, because $lambda(x-overline(x))$ can be made arbitrarily small, yet $f(overline(x)+lambda(x-overline(x)))<f(overline(x))$.
 ]
 
 The normal cone of $K$ at $x$ captures all the directions starting at $x$ along which one cannot progress while being restricted to $K$ in a very strong sense, that is, it is not even possible to move along directions which correlate with a member of the cone.
@@ -125,10 +125,10 @@ Recall that principal submatrices are those formed by only keeping (or equivalen
 
 Let's try to make sense of (5) by proving its equivalence for 2x2 matrices. Take $ S = mat(a,b;b,c). $
 
-(5) says $a,c >= 0$, $a c-b^2 >= 0$. Recall that $lambda$'s are roots of $ 0=|A-lambda I|=(a-lambda)(c-lambda)-b^2=lambda^2-(a+c)lambda+(a c-b^2). $
+(5) says $a,c >= 0$, $a c-b^2 >= 0$. Recall that $lambda$'s are roots of $ 0=|S-lambda I|=(a-lambda)(c-lambda)-b^2=lambda^2-(a+c)lambda+(a c-b^2). $
 Note $lambda_1 lambda_2 = a c-b^2 >= 0$. Also $lambda_1+lambda_2=a+c >= 0$. Hence $lambda_1,lambda_2 >= 0 => S succ.eq 0$.
 
-(1) says $S succ.eq 0 => e_1^top S e_1 = a >= 0, e_2^top S e_2 = b >= 0$. Also $lambda_1,lambda_2 >= 0 =>lambda_1 lambda_2 = det(S)=a c-b^2 >= 0$.
+(1) says $S succ.eq 0 => e_1^top S e_1 = a >= 0, e_2^top S e_2 = c >= 0$. Also $lambda_1,lambda_2 >= 0 =>lambda_1 lambda_2 = det(S)=a c-b^2 >= 0$.
 
 In fact, the last of these works more generally. One can think of isolating a principal submatrix $M$ as choosing a binary matrix $P$ with exactly one non-zero entry per row so that $M=P S P^top$. Clearly, if $S succ.eq 0$ then $M succ.eq 0$, and the determinant of $M$, that is, the product of its eigenvalues, must be non-negative.
 
@@ -162,14 +162,14 @@ We are back to the unconstrained land. Our aim this time is to get both necessar
 	To fix this, define $g(d)=sup{overline(epsilon): forall 0<epsilon< overline(epsilon), f(x+epsilon d)>f(x)}$, which is continuous. Clearly $g(d)>0$ for any $d$; compactness of the set of all unit-norm $d$'s implies that $min_(norm(d)=1) g(d)$ exists, and hence, is positive. Thus, $f(y)>f(x)$ for all $y in B(x,min_(norm(d)=1) g(d)) - {x}$.
 ]
 
-== Why not the unconstrained case?
+== Why not the constrained case?
 It is also possible to define second-order conditions (sufficient and necessary) for constrained local minima. However, their practical utility is limited by concerns about computational complexity.
 
 For example, is $x=0$ a local min for some $f(x)$ on the non-negative orthant $RR_(>=0) = {x : x>=0}$?
 
 To establish necessary conditions, one would hope for:
 + $angle(nabla f(0),x)>=0$ for all $x in RR_(>=0)$ which is the same as $nabla f(0)>=0$.
-+ And for all $d$ such that $angle(nabla f(0), d) = 0$, we have $d^top nabla^2 f(0)d >=0$.
++ And for all $d>=0$ such that $angle(nabla f(0), d) = 0$, we have $d^top nabla^2 f(0)d >=0$.
 
 The intuition behind (2) is that for all directions one could move from $x=0$ without changing the first-order expansion, the second-order term is non-negative.
 
@@ -197,7 +197,7 @@ As an example, consider $QQ$, the set of rational numbers. $upright("cl")(QQ)=RR
 
 As a second example, consider the open ball $A={x:norm(x)<1}$. Then $upright("cl")(A)={x:norm(x)<=1}$ is the closed ball, $upright("int")(A)=A$ and $upright("bd")(A)={x:norm(x)=1}$ is the sphere.
 
-The annoying bit about these definitions is that the (ambient) space you are in matters. Consider the same set $A={x:x_1^2+x_2^2<1}$ in $RR^3$. Now, $upright("cl")(A)={x:x_1^2+x_2^2<=1}$ same as before, but $upright("int")(A)=emptyset$ since any 3d ball cannot be in the flat set $A$; $upright("bd")(A)=upright("cl")(A)$. Thus, every point in $A$ is now on the boundary. To avoid such nuisances, we will consider notions that are robust to such changes in description.
+The annoying bit about these definitions is that the (ambient) space you are in matters. Consider the same set $A={x:x_1^2+x_2^2<1, x_3=0}$ in $RR^3$. Now, $upright("cl")(A)={x:x_1^2+x_2^2<=1, x_3=0}$ same as before, but $upright("int")(A)=emptyset$ since any 3d ball cannot be in the flat set $A$; $upright("bd")(A)=upright("cl")(A)$. Thus, every point in $A$ is now on the boundary. To avoid such nuisances, we will consider notions that are robust to such changes in description.
 
 Recall that $A$ is an affine space if it can be written as $A=x_0+V$ for some point $x_0$ and subspace $V$.
 
@@ -211,7 +211,7 @@ Recall that $A$ is an affine space if it can be written as $A=x_0+V$ for some po
 	The relative boundary of a set $A$ is $upright("rbd")(A)=upright("cl")(A)-upright("relint")(A)$.
 ]
 
-Thus for $A={x:x_1^2+x_2^2<1}$, $upright("relint")(A)=A$, $upright("rbd")={x:x_1^2+x_2^2=1}$ regardless of the space in which $A$ is embedded.
+Thus for $A={x:x_1^2+x_2^2<1}$, $upright("relint")(A)=A$, $upright("rbd")(A)={x:x_1^2+x_2^2=1}$ regardless of the space in which $A$ is embedded.
 
 = The Separation Theorem
 We will now prove one of the most fundamental properties of convex sets.
@@ -249,7 +249,7 @@ Let us examine why each condition is required.
 #align(center)[#image("assets/sep-example.svg", width: 12cm)]
 
 #example[
-	Take $C$ to be the open unit circle centered at $(0,0)$ and $D$ to be the closed unit circle centered at $(2,0)$. These are convex, bounded, and $C inter D=emptyset$. Yet they are not strictly separable.
+	Take $C$ to be the open unit diesk centered at $(0,0)$ and $D$ to be the closed unit disk centered at $(2,0)$. These are convex, bounded, and $C inter D=emptyset$. Yet they are not strictly separable.
 ]
 
 You might say that maybe being closed is not required if we weaken strict separability to strict inequality only on one side. That does not work either.
@@ -331,7 +331,7 @@ Similarly, one of the sets being bounded is necessary.
 	$=>$ Consider any $x in upright("int") K$; then there exists $overline(epsilon)>0$ such that $forall 0<epsilon<overline(epsilon), x+epsilon d in K$ for any unit vector $d$. Now, let $y=x+epsilon d$.
 	$ 0 &<= (angle(nabla f(y)-nabla f(x),y-x))/epsilon^2\
 	&= 1/epsilon angle(nabla f(y)-nabla f(x),d)\
-	&= 1/epsilon integral_0^epsilon d^top nabla^2 f(x+mu(y-x))d dif mu. $
+	&= 1/epsilon integral_0^epsilon d^top nabla^2 f(x+mu d)d dif mu. $
 	Take $lim_(epsilon->0^+)$. Since this holds for all $d$, we are done. (Why?)
 ]
 
@@ -348,14 +348,14 @@ Also, conveniently, for unconstrained optimization, or more generally when $over
 
 == Subgradients and Their Existence
 
-Convex functions are differentiable everywhere except at countably many points. However, functions of the latter form might not be convex at all, e.g. a step function.
+Convex univariate functions are differentiable everywhere except at countably many points. However, functions of the latter form might not be convex at all, e.g. a step function.
 
 In convex analysis, there is an alternative way to make this concrete with a global definition, that generalizes gradients.
 
 #definition[
-	$g$ is a subgradient of $f$ at $overline(x)$ on $K$ if for all $y in K$, $f(y)>=f(x)+g^T(y-x)$.
+	$g$ is a subgradient of $f$ at $x$ on $K$ if for all $y in K$, $f(y)>=f(x)+g^T(y-x)$.
 
-	The set of all subgradients of $f$ at $overline(x)$ on $K$ is $partial f(overline(x))$.
+	The set of all subgradients of $f$ at $x$ on $K$ is called the subdifferential $partial f(x)$.
 ]
 
 #align(center)[#image("assets/supporting-lines.svg")]
