@@ -1,7 +1,7 @@
 #import "47851.typ": *
 #show: lecture.with([Introduction and Complexity of Local Minimization], 1)
 
-This is a fast-paced course that develops the basic toolkit of convex optimization. We will look see what makes convexity an attractive lens to examine optimization problems, and develop efficient algorithms. A good part of the course will also be spent on (conceptual) applications in applied mathematics and engineering. In roughly five weeks, we will visit:
+This is a fast-paced course that develops the basic toolkit of convex optimization. We will see what makes convexity an attractive lens to examine optimization problems, and develop efficient algorithms. A good part of the course will also be spent on (conceptual) applications in applied mathematics and engineering. In roughly five weeks, we will visit:
 
 + Convex sets and functions
 + Duality: Conic, Lagrangian, Fenchel
@@ -38,7 +38,7 @@ Other related graph-theoretic notions:
 
 Another interesting fact is that the number of maximum (in fact, maximal too) independent sets is $3^(n/3) << 2^n$. Can you think of graphs for which this is attained?
 
-A question of Claude Shannon (1956) concerns "worst-case information theory": How much more efficient are words than letters? If one were to communicate with $k$-letter words, $|V| = n^k$, and 2 words $(alpha_1 dots alpha_k)$, $(beta_1, dots beta_k)$ would be ambiguous if and only if they are not the same, yet for all positions $1 <= ell <= k$, $alpha_ell$ and $beta_ell$ are ambiguous (or the same). Drawing edges between such words, we get $G^k$. Graph theorists call it the "strong graph product," denoted by $times.square$, applied $k$-times.
+A question of Claude Shannon (1956) concerns "worst-case information theory": How much more efficient are words than letters? If one were to communicate with $k$-letter words, $|V| = n^k$, and 2 words $(alpha_1 dots alpha_k)$, $(beta_1, dots beta_k)$ would be ambiguous if and only if they are not the same, yet for all positions $1 <= ell <= k$, $alpha_ell$ and $beta_ell$ are ambiguous (or the same). Drawing edges between such words, we get $G^k$. Graph theorists call it the "strong graph product," denoted by $times.square$, applied $k$ times.
 
 #exercise[
   How do the adjacency matrices of $G$ and $G^k$ relate? Think of Kronecker products.
@@ -84,7 +84,7 @@ The following are notions of _similarity_ and _length_ respectively.
   + $norm(x+y) <= norm(x) + norm(y)$ for all $x,y in V$.
 ]
 
-If the second parts of condition (1) fails in either definitions, we call these semi inner products and semi norms respectively. Under such definitions, non-zero vectors can be have zero _length_.
+If the second part of condition (1) fails in either definition, we call these semi inner products and semi norms respectively. Under such definitions, non-zero vectors can have zero _length_.
 
 #lemma(title: "Cauchy-Schwarz")[
   For any (semi) inner product, for all $x,y in V$
@@ -101,7 +101,7 @@ If the second parts of condition (1) fails in either definitions, we call these 
 #exercise[
   Complete the above proof for cases when $angle(x,x)$ or $angle(y,y)$ is zero.
 
-  _Hint:_ Think about what happens if choose arbitrarily large $s$ or $t$ in these cases.
+  _Hint:_ Think about what happens if we choose arbitrarily large $s$ or $t$ in these cases.
 ]
 
 #proposition[
@@ -109,7 +109,7 @@ If the second parts of condition (1) fails in either definitions, we call these 
 ]
 
 #proof[
-  (1) & (2) are straight-forward. For all $x,y in V$, we have
+  (1) & (2) are straightforward. For all $x,y in V$, we have
   $ f(x+y)^2 &= angle(x,x) + angle(y,y) + 2 angle(x,y) \
     &<= angle(x,x) + angle(y,y) + 2 f(x) f(y) quad ("C.S.") \
     &<= (f(x) + f(y))^2. $
@@ -146,13 +146,13 @@ But *false* for Convex programs: $min_(x in RR) e^(-x)$.
 This is the cause of a lot of pain when stating any non-LP duality result.
 
 #theorem[
-  If $K$ is compact & non-empty and $f$ continuous, then a minimizer exists.
+  If $K$ is compact & non-empty and $f$ is continuous, then a minimizer exists.
 ]
 
 This theorem is nice, but we would also like something that applies to unconstrained problems.
 
 #theorem[
-  If $K$ is closed & non-empty, $f$ continuous with all its sub-level sets bounded, then a minimizer exists.
+  If $K$ is closed & non-empty, $f$ is continuous with all its sub-level sets bounded, then a minimizer exists.
 ]
 
 #definition[
@@ -168,11 +168,11 @@ Consider $V$ to be any vector space and $K$ to be any convex set so that adding 
 ]
 
 #definition(title: "Convex Function")[
-  $f: K -> RR$ is convex $forall x,y in K$, $lambda in [0,1]$,
+  $f: K -> RR$ is convex if $forall x,y in K$, $lambda in [0,1]$,
   $ f(lambda x + (1-lambda)y) <= lambda f(x) + (1-lambda) f(y). $
 ]
 
-The set ${lambda x + (1-lambda) y: lambda in [0,1]}$ is the line segment connecting $x$ and $y$. So convex sets are precisely those that contain all line segments for which corresponding endpoints are within the set. And convex functions are precisely those for which any linear interpolation over approximates the function value. How are these related?
+The set ${lambda x + (1-lambda) y: lambda in [0,1]}$ is the line segment connecting $x$ and $y$. So convex sets are precisely those that contain all line segments for which corresponding endpoints are within the set. And convex functions are precisely those for which any linear interpolation overapproximates the function value. How are these related?
 
 #definition(title: "Epigraph")[
   $op("epi")(f) = {(t,x): t >= f(x)}$.
@@ -196,16 +196,16 @@ The set ${lambda x + (1-lambda) y: lambda in [0,1]}$ is the line segment connect
   Thus $lambda f(x) + (1-lambda)f(y) >= f(lambda x + (1-lambda)y)$.
 ]
 
-One attraction of convexity is that it is a robust notion, that is, it is preserved under many (useful) operations. We will describe a few operations for convex sets below. You should able to translate these to convex functions via the above link.
+One attraction of convexity is that it is a robust notion, that is, it is preserved under many (useful) operations. We will describe a few operations for convex sets below. You should be able to translate these to convex functions via the above link.
 
 #exercise[
-  Prove that Cartesian products, Minkowski sums, linear transformations and intersections of convex sets is convex.
+  Prove that Cartesian products, Minkowski sums, linear transformations and intersections of convex sets are convex.
 ]
 
 If you have not seen this before, $A+B = {a+b: a in A, b in B}$ is a Minkowski sum.
 
 #exercise[
-  Construct a closed set $S subset.eq RR^n$, and a matrix $A in RR^(m times n)$ such that the linear transformations $A S = {A x: x in S}$ is not closed.
+  Construct a closed set $S subset.eq RR^n$, and a matrix $A in RR^(m times n)$ such that the linear transformation $A S = {A x: x in S}$ is not closed.
 
   _Hint:_ Linear transformations can be used to do projections onto subspaces.
 ]
@@ -217,11 +217,11 @@ If you have not seen this before, $A+B = {a+b: a in A, b in B}$ is a Minkowski s
 = Local and Global Minimizers
 
 #definition[
-  $overline(x)$ is a local minimum for $f$ on $K$ if $exists epsilon > 0$ such
+  $overline(x)$ is a local minimum for $f$ on $K$ if $exists epsilon > 0$ such that
   $ f(overline(x)) <= f(x) quad forall x in K inter B(overline(x),epsilon). $
 
   // Typo: “for x” in the next three definitions is “for f”.
-  $overline(x)$ is a strict local minimum for $f$ on $K$ if $exists epsilon > 0$ such
+  $overline(x)$ is a strict local minimum for $f$ on $K$ if $exists epsilon > 0$ such that
   $ f(overline(x)) < f(x) quad forall x in K inter B(overline(x),epsilon) - {overline(x)}. $
 
   $overline(x)$ is a global minimum for $f$ on $K$ if $forall x in K$
@@ -232,10 +232,10 @@ If you have not seen this before, $A+B = {a+b: a in A, b in B}$ is a Minkowski s
 ]
 
 Here and elsewhere, $B(overline(x),epsilon) = {x: norm(x-overline(x)) <= epsilon}$.
-Think of $norm(dot)$ as the Euclidean norm, but for finite-dimensional vector spaces, all norms are equivalent (sandwich each other up to constants), so it does not matter. These definitions apply to any (for example, non convex) function. Also note that global minima are local minima.
+Think of $norm(dot)$ as the Euclidean norm, but for finite-dimensional vector spaces, all norms are equivalent (sandwich each other up to constants), so it does not matter. These definitions apply to any (for example, non-convex) function. Also note that global minima are local minima.
 
 #exercise[
-  Give a non-constant function over $K = RR$ whose all local minima are global _maxima_.
+  Give a non-constant function over $K = RR$ all of whose local minima are global _maxima_.
 ]
 
 #proposition[
@@ -243,7 +243,7 @@ Think of $norm(dot)$ as the Euclidean norm, but for finite-dimensional vector sp
 ]
 #proof[
   Take a local minimum $overline(x) in K$. If $overline(x)$ is not a global minimum, then $exists x^* in K$ such that $f(x^*) < f(overline(x))$.
-  Note $x^*$ need not be a global minimum; a priori not clear if the latter exists.
+  Note $x^*$ need not be a global minimum; a priori it is not clear if the latter exists.
   Now set $x = (1-lambda)overline(x) + lambda x^* = overline(x) + lambda (x^* - overline(x)) in K$;
   we will ensure $lambda in (0,1]$. We have
   $ f(x) <= (1-lambda)f(overline(x)) + lambda f(x^*) < f(overline(x)), $
@@ -271,20 +271,20 @@ We will prove a weaker result.
   Checking if $x in RR^n$ is a local strict minimum for a degree 4 polynomial is NP-hard.
 ]
 
-Note that these results concern certification of a given point. It can still be other local minimums are easy to find; this does happen for a few problem classes. But also finding something that is guaranteed to exist (via compactness, say) can not be NP-hard, which concerns decision problems, not search. These problems are better translated to PPAD-hardness.
+Note that these results concern certification of a given point. It can still be that other local minima are easy to find; this does happen for a few problem classes. But also finding something that is guaranteed to exist (via compactness, say) cannot be NP-hard, which concerns decision problems, not search. These problems are better translated to PPAD-hardness.
 
 == Global problems can be difficult
 
-We will build towards a proof of the last theorem. The easy bit to believe that global minimization is hard; so let us start there.
+We will build towards a proof of the last theorem. The easy bit is to believe that global minimization is hard; so let us start there.
 
 #definition[
-  *3SAT* is NP-complete, asks if $exists$ a boolean assignment of $x,y,z dots$ such that
+  *3SAT* is NP-complete and asks if $exists$ a boolean assignment of $x,y,z dots$ such that
   $ (x or overline(y) or z) and (overline(x) or y or overline(z)) and dots $
   is satisfied. Three literals in each clause are joined by ORs with negations allowed. Clauses themselves are joined by ANDs.
 
   *1-in-3SAT* is also NP-complete. It asks if there is a boolean assignment that makes exactly one of the ORs in each clause true.
 
-  *$d$-POLYPOS* asks if given a degree-$d$ multivariate polynomial ($d$ is a fixed number, so representational issues here), is it true that $forall x in RR^n, P(x) > 0$.
+  *$d$-POLYPOS* asks if given a degree-$d$ multivariate polynomial ($d$ is a fixed number, so no representational issues here), is it true that $forall x in RR^n, P(x) > 0$.
 ]
 
 #claim[
@@ -313,9 +313,9 @@ We are butchering complexity-theoretic reductions a bit. We are using Cook/algor
 
 == Embedding global hardness locally
 
-For any degree-$d$ polynomial $P$, let $P_h (x,y) := y^d P(x/y)$ be its homogeneous counterpart. Note that $P_h (x,1) = P(x)$. Also note that this transformation is symbolic; so can be plugin $y=0$.
+For any degree-$d$ polynomial $P$, let $P_h (x,y) := y^d P(x/y)$ be its homogeneous counterpart. Note that $P_h (x,1) = P(x)$. Also note that this transformation is symbolic; so we can plug in $y=0$.
 
-*Observation:* For any homogeneous polynomial $P_h$, $forall alpha >= 0$, $P_h (alpha x) = alpha^d P_h (x)$, where $d$ is degree.
+*Observation:* For any homogeneous polynomial $P_h$, $forall alpha >= 0$, $P_h (alpha x) = alpha^d P_h (x)$, where $d$ is the degree.
 
 #claim[
   For a homogeneous poly $q$, $x=0$ is a strict local min $<=> q(x)>0$ for all $x != 0$.
@@ -328,20 +328,20 @@ For any degree-$d$ polynomial $P$, let $P_h (x,y) := y^d P(x/y)$ be its homogene
   But then consider any $z in RR^n$, $z != 0$.
   $ q(z) = q(norm(z)/epsilon times z/norm(z) epsilon)
     = (norm(z)/epsilon)^d q(z/norm(z) epsilon) > 0 $
-  because the $z/norm(z) epsilon$ belongs to $B(0,epsilon)$.
+  because $z/norm(z) epsilon$ belongs to $B(0,epsilon)$.
 ]
 
-The reason for considering homogenized polynomials is as follows: they display the same quantitative behavior in neighborhood of origin as they display elsewhere, up to suitable scaling. This characteristic can be used to hide global hardness in a small near-zero neighborhood; the latter is what local minimums care about.
+The reason for considering homogenized polynomials is as follows: they display the same quantitative behavior in a neighborhood of the origin as they display elsewhere, up to suitable scaling. This characteristic can be used to hide global hardness in a small near-zero neighborhood; the latter is what local minima care about.
 
-Finally, we know that testing positivity of degree $4$ polynomials is NP-hard. If this was also established for homogeneous equivalents, we would be done. Except this doesn't make sense directly because homogenous polynomials evaluate to zero at zero.
+Finally, we know that testing positivity of degree $4$ polynomials is NP-hard. If this were also established for homogeneous equivalents, we would be done. Except this doesn't make sense directly because homogeneous polynomials evaluate to zero at zero.
 To complete this translation, consider the following assertion for even degree polynomials:
 $ P(x)>0 quad forall x quad <=> quad P_h (x,y)>0 quad forall (x,y) != 0. $
 
-To be clear, we will fail to prove this as stated, but we will establish these for special cases which will nevertheless suffice for us.
+To be clear, we will fail to prove this as stated, but we will establish this for special cases which will nevertheless suffice for us.
 
 Here, $arrow.l.double$ holds always as $P(x)=P_h (x,1)>0$.
 
-$=>$ is tricky. Let's try the contra-positive.
+$=>$ is tricky. Let's try the contrapositive.
 $ exists (x,y) != 0 "such" P_h (x,y) <= 0. $
 We wish to conclude $exists z != 0$, $P(z) <= 0$.
 This is indeed fine if $y != 0$ incidentally.
@@ -359,7 +359,7 @@ The subtle observation is that the bad case never happens for the polynomial con
 Indeed
 $ P_h (x,y) = sum_(i=1)^n (x_i (y-x_i))^2 + (y(x_1+(y-x_2)+x_3)-y^2)^2 + dots $
 With $y=0$, the first term becomes $sum_(i=1)^n x_i^4$.
-Hence for $P_h (x,0) <= 0 => x_i = 0$ for all $i$.
+Hence $P_h (x,0) <= 0 => x_i = 0$ for all $i$.
 But the only problematic case was when $exists (x,y) != 0$ and $y=0$ where $P_h (x,y) <= 0$.
 
 So our proof of the hardness of certifying strict local minima is complete.

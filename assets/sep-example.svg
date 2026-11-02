@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="350" viewBox="0 0 1200 350">
+  <defs>
+    <clipPath id="plot"><rect x="840" y="20" width="340" height="310"/></clipPath>
+  </defs>
+  <g stroke="#888" stroke-width="1.2" fill="none">
+    <path d="M25 175H365 M120 35V315 M425 175H765 M595 20V330 M840 300H1180 M940 20V330"/>
+  </g>
+  <circle cx="120" cy="175" r="78" fill="#3b82f6" fill-opacity=".18" stroke="#2563eb" stroke-width="2.5" stroke-dasharray="6 5"/>
+  <circle cx="276" cy="175" r="78" fill="#f97316" fill-opacity=".19" stroke="#ea580c" stroke-width="2.5"/>
+  <path d="M198 40V310" stroke="#333" stroke-width="1.5" stroke-dasharray="7 6"/>
+  <circle cx="198" cy="175" r="4" fill="#ea580c"/>
+  <path d="M465 175V305H725V175" fill="#3b82f6" fill-opacity=".18" stroke="#2563eb" stroke-width="2.5"/>
+  <path d="M465 175V45H725V175" fill="#f97316" fill-opacity=".19" stroke="#ea580c" stroke-width="2.5"/>
+  <path d="M465 175H589" stroke="#2563eb" stroke-width="4"/>
+  <path d="M601 175H725" stroke="#ea580c" stroke-width="4"/>
+  <circle cx="595" cy="175" r="5" fill="white" stroke="#333" stroke-width="2"/>
+  <g clip-path="url(#plot)">
+    <path d="M840 20H940V330H840Z" fill="#3b82f6" fill-opacity=".18"/>
+    <path d="M940 20V330" stroke="#2563eb" stroke-width="2.5"/>
+    <path d="M953 20H1180V285 L1160 283.64 L1140 282 L1120 280 L1100 277.5 L1080 274.29 L1060 270 L1040 264 L1020 255 L1000 240 L990 228 L980 210 L970 180 L965 156 L960 120 L956 75 L953 23.08Z" fill="#f97316" fill-opacity=".19"/>
+    <path d="M953 23.08 L956 75 L960 120 L965 156 L970 180 L975 197.14 L980 210 L985 220 L990 228 L995 234.55 L1000 240 L1010 248.57 L1020 255 L1030 260 L1040 264 L1050 267.27 L1060 270 L1080 274.29 L1100 277.5 L1120 280 L1140 282 L1160 283.64 L1180 285" fill="none" stroke="#ea580c" stroke-width="2.5" stroke-linejoin="round"/>
+  </g>
+</svg>

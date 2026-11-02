@@ -1,7 +1,7 @@
 #import "47851.typ": *
 #show: lecture.with([Convexity and Separation], 2)
 
-So far, we have seen that an attractive property of convex functions is that local minimums are also global minimums. However, we have also seen that even local minimums can be hard to find and certify generally. So we will begin by relaxing the definition of local minima itself, in a way that retains the local-to-global property while being tractable.
+So far, we have seen that an attractive property of convex functions is that local minima are also global minima. However, we have also seen that even local minima can be hard to find and certify generally. So we will begin by relaxing the definition of local minima itself, in a way that retains the local-to-global property while being tractable.
 
 #outline()
 
@@ -19,19 +19,19 @@ So far, we have seen that an attractive property of convex functions is that loc
 	By Taylor's theorem, we have
 	$ f(x+epsilon d) = f(x) + angle(nabla f(x),d) epsilon + r(epsilon,x,d), $
 	where $r(x,epsilon,d) = o(epsilon)$, that is, $lim_(epsilon -> 0^+) r(epsilon,x,d)slash epsilon = 0$.
-	There exists $overline(epsilon)>0$ for all $0 < epsilon <= overline(epsilon)$ such that $|r(epsilon,x,d) slash epsilon| <= |angle(nabla f(x),d)| slash 2$. Then, we get
+	There exists $overline(epsilon)>0$ such that for all $0 < epsilon <= overline(epsilon)$, $|r(epsilon,x,d) slash epsilon| <= |angle(nabla f(x),d)| slash 2$. Then, we get
 	$ (f(x+epsilon d)-f(x))/epsilon = angle(nabla f(x),d) + r(epsilon,x,d)/epsilon<= 1/2 angle(nabla f(x),d) < 0. $
 ]
 
 #align(center)[#image("assets/descent-directions.svg")]
 
-The converse is false. Consider $f(x)=-x^2$, then at $0$ any non-zero direction is a descent direction.
+The converse is false. Consider $f(x)=-x^2$; then at $0$ any non-zero direction is a descent direction.
 
 #proposition[
 	$x$ is a local min for $f$ $=>$ $nabla f(x)=0$.]
 
 #proof[
-	Say $nabla f(x)!= 0$, then $angle(nabla f(x),-nabla f(x)) < 0$. Hence $-nabla f(x) slash norm(nabla f(x))$ is a descent direction.
+	Say $nabla f(x)!= 0$; then $angle(nabla f(x),-nabla f(x)) < 0$. Hence $-nabla f(x) slash norm(nabla f(x))$ is a descent direction.
 
 	Hence there exists $overline(alpha)>0$ such that for all $epsilon < overline(alpha) $, there exists $x' in B(x,epsilon)$, namely $ x' = x + epsilon (nabla f(x))/norm(nabla f(x)), $ such that $f(x') < f(x)$. Hence $x$ is not a local min.
 ]
@@ -53,7 +53,7 @@ To summarize all this, we have:
 Now, let's do the constrained case. We have dealt with non-convex functions so far. Coming to the constrained case, you might be tempted to also treat general (non-convex) sets. But, for example, if $K$ is the set of vertices on a hypercube, all feasible points are local minima, regardless of the objective function. To avoid such pathologies, it makes sense to only consider a convex set $K$.
 
 #proposition[
-	$overline(x)$ is a local min for $f$ on convex set $K$ $=>$ $angle(nabla f(overline(x)),x-overline(x)) >= 0$ for all $x in K$.
+	$overline(x)$ is a local min for $f$ on a convex set $K$ $=>$ $angle(nabla f(overline(x)),x-overline(x)) >= 0$ for all $x in K$.
 ] <necessary-first-order>
 
 #proof[
@@ -62,7 +62,7 @@ Now, let's do the constrained case. We have dealt with non-convex functions so f
 	$f(y)=f(x)+lambda angle(nabla f(overline(x)),x-overline(x))+r(lambda,x,overline(x))$ where $r(lambda,x,overline(x))=o(lambda)$.
 	Then there exists $overline(lambda)>0$ such that for all $0<lambda<overline(lambda)$, $|r(lambda,x,overline(x))/lambda| < 1/2 |angle(nabla f(overline(x)),x-overline(x))|$.
 	For all such $lambda$'s, we have $ f(y) <= f(x)+1/2 angle(nabla f(overline(x)),x-overline(x)) < f(x). $
-	Thus, there does not exist an $epsilon>0$ such $f(y)>=f(x) forall y in B(x,epsilon)$, because $lambda(x-overline(x))$ can be made arbitrarily small, yet $f(overline(x)+lambda(x-overline(x)))<f(x)$.
+	Thus, there does not exist an $epsilon>0$ such that $f(y)>=f(x) forall y in B(x,epsilon)$, because $lambda(x-overline(x))$ can be made arbitrarily small, yet $f(overline(x)+lambda(x-overline(x)))<f(x)$.
 ]
 
 The normal cone of $K$ at $x$ captures all the directions starting at $x$ along which one cannot progress while being restricted to $K$ in a very strong sense, that is, it is not even possible to move along directions which correlate with a member of the cone.
@@ -78,10 +78,10 @@ $ angle(nabla f(overline(x)),x-overline(x)) >= 0, forall x in K equiv-nabla f(ov
 
 In words, one would like to go in the direction of $-nabla f(overline(x))$ to decrease function value, but all directions that cast a positive shadow on $-nabla f(overline(x))$ are unapproachable at $overline(x)$ by moving in feasible directions.
 
-= Postive Semidefinite Matrices
-Now we have relaxed analogs of local minima which can be easily checked and found. Nevertheless, we have lost something in this relaxation. Can we at least come up with more stringent notions that help us cerify local minima in special cases?
+= Positive Semidefinite Matrices
+Now we have relaxed analogs of local minima which can be easily checked and found. Nevertheless, we have lost something in this relaxation. Can we at least come up with more stringent notions that help us certify local minima in special cases?
 
-To do this, we will consider high-order derivatives, for which the defintion below captures the central property of interest.
+To do this, we will consider high-order derivatives, for which the definition below captures the central property of interest.
 
 #definition[
 	A symmetric matrix $S in RR^(n times n)$ is positive semi-definite if $x^top S x >= 0, forall x in RR^n$. In this case, we will write $S succ.eq 0$. Also $S_+^(n times n)$ is the space of such matrices.
@@ -98,7 +98,7 @@ To do this, we will consider high-order derivatives, for which the defintion bel
 	+ $S succ.eq 0$.
 	+ All eigenvalues of $S$ are non-negative.
 	+ $S = L L^top$ for some $L in RR^(n times k)$ for some $k$.
-	+ There exist vectors $v_1,dots,v_n in RR^n$ such $S_(i j)=v_i^top v_j, forall i,j in [n]$.
+	+ There exist vectors $v_1,dots,v_n in RR^n$ such that $S_(i j)=v_i^top v_j, forall i,j in [n]$.
 	+ Determinants of all principal submatrices are non-negative.
 ]
 
@@ -109,7 +109,7 @@ Recall that principal submatrices are those formed by only keeping (or equivalen
 
 	(1) $=>$ (2) For all $x$, $x^top S x >= 0$. Take $x=u_i$. Then $0 <= u_i^top S u_i = lambda_i norm(u_i)^2$.
 
-	For the next two steps, we reinterpret matrix multiplication two ways. Consider $A in RR^(n times k)$, $B in RR^(k times n)$, then the standard definition implies $ (A B)_(i j) = (i^("th") " row of " A)^top (j^("th") " column of " B). $
+	For the next two steps, we reinterpret matrix multiplication two ways. Consider $A in RR^(n times k)$, $B in RR^(k times n)$; then the standard definition implies $ (A B)_(i j) = (i^("th") " row of " A)^top (j^("th") " column of " B). $
 	But matrix multiplication can also be written via outer products as
 	$ A B = sum_(i=1)^k (i^("th") " column of " A)(i^("th") " row of " B)^top. $
 
@@ -130,12 +130,12 @@ Note $lambda_1 lambda_2 = a c-b^2 >= 0$. Also $lambda_1+lambda_2=a+c >= 0$. Henc
 
 (1) says $S succ.eq 0 => e_1^top S e_1 = a >= 0, e_2^top S e_2 = b >= 0$. Also $lambda_1,lambda_2 >= 0 =>lambda_1 lambda_2 = det(S)=a c-b^2 >= 0$.
 
-In fact, the last of these works more generally. One can think of isolating a principal submatrix $M$ as choosing a binary matrix $P$ with exactly one non-zero entry per row so that $M=P S P^top$. Clearly, if $S succ.eq 0$ then $M succ.eq 0$, and the determinant of $M$, that is, product of its eigenvalues, must be non-negative.
+In fact, the last of these works more generally. One can think of isolating a principal submatrix $M$ as choosing a binary matrix $P$ with exactly one non-zero entry per row so that $M=P S P^top$. Clearly, if $S succ.eq 0$ then $M succ.eq 0$, and the determinant of $M$, that is, the product of its eigenvalues, must be non-negative.
 
 The more magical bit is the opposite direction: if the determinant of $P S P^top$ is non-negative for arbitrary $P$, that would be enough to get $S succ.eq 0$. (Why?) The principal submatrix condition says that checking this for binary $P$'s with one non-zero entry per row is enough.
 
 = Second-Order Conditions for Local Minimization
-We are back to the uncontrained land. Our aim this time is to get both necessary and sufficient conditions for local minima, although not both at the same time.
+We are back to the unconstrained land. Our aim this time is to get both necessary and sufficient conditions for local minima, although not both at the same time.
 
 #proposition[
 	$x$ is a local min for $f => nabla f(x)=0$ and $nabla^2 f(x) succ.eq 0$.
@@ -144,7 +144,7 @@ We are back to the uncontrained land. Our aim this time is to get both necessary
 #proof[
 	We already know $nabla f(x)=0$ is necessary. Say $nabla f(x)=0$ and $nabla^2 f(x) succ.eq.not 0$. Then there exists $u$ for which $u^T nabla^2 f(x) u < 0$ and $norm(u)=1$. Consider $y=x+alpha u$.
 	$ f(x+alpha u) = f(x)+angle(nabla f(x),u) alpha + 1/2 alpha^2 u^T nabla^2 f(x) u + r(alpha,x,u) text(" where ") r(alpha,x,u)=o(alpha^2) $
-	Hence, there exists $overline(alpha)>0$, for all $0 < alpha < overline(alpha)$, $|r(alpha,x,u)| <= 1/4 |alpha^2 u^T nabla^2 f(x) u|$. Now
+	Hence, there exists $overline(alpha)>0$ such that for all $0 < alpha < overline(alpha)$, $|r(alpha,x,u)| <= 1/4 |alpha^2 u^T nabla^2 f(x) u|$. Now
 	$ f(x+alpha u) <= f(x)+1/4 u^T nabla^2 f(x) u alpha^2 < f(x). $
 	Yet, $x+alpha u$ lives in an arbitrarily small neighborhood of $x$ since this holds for all $0<alpha<overline(alpha)$. Thus, $x$ cannot be a local min.
 ]
@@ -157,18 +157,18 @@ We are back to the uncontrained land. Our aim this time is to get both necessary
 	Consider any $y=x+d epsilon$ with $epsilon != 0$ and unit vector $d$.
 	$ f(y)=f(x)+epsilon angle(nabla f(x),d)+epsilon^2/2 d^T nabla^2 f(x)d+r(x,epsilon,d) text(" where ") r=o(epsilon^2) $
 
-	For any fixed $d$, there exists $overline(epsilon)>0$ such that for all $0<epsilon<overline(epsilon)$ we have $|r(x,epsilon,d)| <= epsilon^2/4 |d^T nabla^2 f(x)d|$. So $f(y)>=f(x)+epsilon^2/4 d^T nabla^2 f(x)d > f(x)$. The one complication is this choice of $overline(epsilon)$ depends on $d$.
+	For any fixed $d$, there exists $overline(epsilon)>0$ such that for all $0<epsilon<overline(epsilon)$ we have $|r(x,epsilon,d)| <= epsilon^2/4 |d^T nabla^2 f(x)d|$. So $f(y)>=f(x)+epsilon^2/4 d^T nabla^2 f(x)d > f(x)$. The one complication is that this choice of $overline(epsilon)$ depends on $d$.
 
 	To fix this, define $g(d)=sup{overline(epsilon): forall 0<epsilon< overline(epsilon), f(x+epsilon d)>f(x)}$, which is continuous. Clearly $g(d)>0$ for any $d$; compactness of the set of all unit-norm $d$'s implies that $min_(norm(d)=1) g(d)$ exists, and hence, is positive. Thus, $f(y)>f(x)$ for all $y in B(x,min_(norm(d)=1) g(d)) - {x}$.
 ]
 
 == Why not the unconstrained case?
-It is also possible to define second-order-conditions (sufficient and necessary) for constrained local minima. However, their practical utility is limited by concerns about computational complexity.
+It is also possible to define second-order conditions (sufficient and necessary) for constrained local minima. However, their practical utility is limited by concerns about computational complexity.
 
 For example, is $x=0$ a local min for some $f(x)$ on the non-negative orthant $RR_(>=0) = {x : x>=0}$?
 
 To establish necessary conditions, one would hope for:
-+ $angle(nabla f(0),x)>=0$ for all $x in RR_(>=0)$ which is same as $nabla f(0)>=0$.
++ $angle(nabla f(0),x)>=0$ for all $x in RR_(>=0)$ which is the same as $nabla f(0)>=0$.
 + And for all $d$ such that $angle(nabla f(0), d) = 0$, we have $d^top nabla^2 f(0)d >=0$.
 
 The intuition behind (2) is that for all directions one could move from $x=0$ without changing the first-order expansion, the second-order term is non-negative.
@@ -197,7 +197,7 @@ As an example, consider $QQ$, the set of rational numbers. $upright("cl")(QQ)=RR
 
 As a second example, consider the open ball $A={x:norm(x)<1}$. Then $upright("cl")(A)={x:norm(x)<=1}$ is the closed ball, $upright("int")(A)=A$ and $upright("bd")(A)={x:norm(x)=1}$ is the sphere.
 
-The annoying bit about these definitions is that the (ambient) space you are in matters. Consider the same set $A={x:x_1^2+x_2^2<1}$ in $RR^3$. Now, $upright("cl")(A)={x:x_1^2+x_2^2<=1}$ same as before, but $upright("int")(A)=emptyset$ since any 3d ball can not be in the flat set $A$; $upright("bd")(A)=upright("cl")(A)$. Thus, every point in $A$ is now on the boundary. To avoid such nuisances, we will consider notions that are robust to such changes in description.
+The annoying bit about these definitions is that the (ambient) space you are in matters. Consider the same set $A={x:x_1^2+x_2^2<1}$ in $RR^3$. Now, $upright("cl")(A)={x:x_1^2+x_2^2<=1}$ same as before, but $upright("int")(A)=emptyset$ since any 3d ball cannot be in the flat set $A$; $upright("bd")(A)=upright("cl")(A)$. Thus, every point in $A$ is now on the boundary. To avoid such nuisances, we will consider notions that are robust to such changes in description.
 
 Recall that $A$ is an affine space if it can be written as $A=x_0+V$ for some point $x_0$ and subspace $V$.
 
@@ -240,34 +240,36 @@ This is a pretty fundamental result about convex sets. We will state a couple of
 	Any non-empty convex set is separable from a point on its boundary.
 ]
 
-#theorem[If $C$ and $D$ are closed convex non-empty sets such $C inter D=emptyset$ and at least one of $C,D$ is bounded, then there exist $a != 0 in RR^n$, $b in RR$ such that $a^T x < b$ for all $x in C$ and $a^T x > b$ for all $x in D$.]
+#theorem[If $C$ and $D$ are closed convex non-empty sets such that $C inter D=emptyset$ and at least one of $C,D$ is bounded, then there exist $a != 0 in RR^n$, $b in RR$ such that $a^T x < b$ for all $x in C$ and $a^T x > b$ for all $x in D$.]
 
 We will prove this result. This is weaker than the separation theorem in many ways, but also implies strict separation.
 
-Lets us examine why each condition is required.
+Let us examine why each condition is required.
+
+#align(center)[#image("assets/sep-example.svg", width: 12cm)]
 
 #example[
 	Take $C$ to be the open unit circle centered at $(0,0)$ and $D$ to be the closed unit circle centered at $(2,0)$. These are convex, bounded, and $C inter D=emptyset$. Yet they are not strictly separable.
 ]
 
-You might say that may be being closed is not required if we weaken strict separability to strict inequality only on one side. That does not work either.
+You might say that maybe being closed is not required if we weaken strict separability to strict inequality only on one side. That does not work either.
 
 #example[
-	In two dimensions, take $C=({x:x_2<0} union {x:x_2=0,x_1<0}) inter {x:norm(x)_infinity<=1}$, $D=({x:x_2>0} union {x:x_2=0,x_1>0}) inter {x:norm(x)_infinity<=1}$ are convex, bounded, and $C inter D=emptyset$. Yet they are not strictly separable (even under the one-sided definition).
+	In two dimensions, take $C=({x:x_2<0} union {x:x_2=0,x_1<0}) inter {x:norm(x)_infinity<=1}$, $D=({x:x_2>0} union {x:x_2=0,x_1>0}) inter {x:norm(x)_infinity<=1}$, which are convex and bounded, with $C inter D=emptyset$. Yet they are not strictly separable (even under the one-sided definition).
 ]
 
 Similarly, one of the sets being bounded is necessary.
 
 #example[
-	In two dimensions, take $C={x:x_1<=0}$, $D={x:x_1 x_2>=1,x_1>=0}$, are closed convex and $C inter D=emptyset$. Yet they are not strictly separable.
+	In two dimensions, take $C={x:x_1<=0}$, $D={x:x_1 x_2>=1,x_1>=0}$, which are closed and convex, with $C inter D=emptyset$. Yet they are not strictly separable.
 ]
 
 #proof[
-	Generically, say $C$ is bounded. Consider $f(x)=inf_(d in D) norm(x-d)$ over $x in C$. Now $C$ is bounded, $f$ continuous (Why?). Hence, $min_(x in C) f(x)$ is achieved at some $c in C$; let's fix this $c$.
+	Generically, say $C$ is bounded. Consider $f(x)=inf_(d in D) norm(x-d)$ over $x in C$. Now $C$ is bounded, $f$ is continuous (Why?). Hence, $min_(x in C) f(x)$ is achieved at some $c in C$; let's fix this $c$.
 
 	Now, consider $f(x)=norm(x-c)$ over $x in D$. Now $f$ is continuous with bounded sub-level sets, so $min$ of $f(x)$ over $x in D$ is attained. Hence let $(c,d)=upright("argmin")_(c in C,d in D) norm(c-d)$.
 
-	The idea hereafter is simple. The bisector of the two points is the hyperplance we are looking for. Take $a=d-c !=0$ since else $C inter D != emptyset$ and $b=(norm(d)^2-norm(c)^2)/2$. By construction, $a^top ((c+d)/2)=b$, or equivalently that, $(c+d)/2$ lies on the hyperplane.
+	The idea hereafter is simple. The bisector of the two points is the hyperplane we are looking for. Take $a=d-c !=0$ since else $C inter D != emptyset$ and $b=(norm(d)^2-norm(c)^2)/2$. By construction, $a^top ((c+d)/2)=b$, or equivalently, $(c+d)/2$ lies on the hyperplane.
 
 	We claim $a^top x<b$ for all $x in C$ and $a^top x>b$ for all $x in D$. This might seem obvious, but I encourage you to try to complete the proof before reading further.
 
@@ -277,8 +279,10 @@ Similarly, one of the sets being bounded is necessary.
 	Using this, we get
 	$ a^top d' &= (d-c)^top d' >= (d-c)^top d \
 		&= (d-c)^top ((d+c)/2 + (d-c)/2) = b + norm(c-d)^2/2 > b. $
-	This work (anti)symmetrically for any $c' in C$.
+	This works (anti)symmetrically for any $c' in C$.
 ]
+
+
 
 = Equivalent Conditions for Convexity
 
@@ -356,7 +360,7 @@ In convex analysis, there is an alternative way to make this concrete with a glo
 
 #align(center)[#image("assets/supporting-lines.svg")]
 
-#theorem[Let $f$ be a function on convex set $K$. It is true that:
+#theorem[Let $f$ be a function on a convex set $K$. It is true that:
 + If for all $x in K$ $partial f(x)!=emptyset$, then $f$ is convex, and
 + If $f$ is convex, then, for all $x in upright("int") K$, $partial f(x)!=emptyset$.
 ]
@@ -368,7 +372,7 @@ In convex analysis, there is an alternative way to make this concrete with a glo
 	$ alpha t+beta^top y >= alpha f(x)+beta^top x quad forall (t,y) in upright("epi")(f). $
 	We claim $alpha>0$. If so, taking $t=f(y)$, $f(y)>=f(x)+(-beta/alpha)^top (y-x)$, and $partial f(x)!=emptyset$.
 
-	To finish up: First, $alpha>=0$ follows from taking $t -> infinity$, which is compatible with the epigraph. Finally, there exists $epsilon>0$ such $y=x+epsilon d in K$ for all unit vectors $d$. Then, if $alpha=0$, note that $beta^top (y-x)=beta^top d epsilon>=0$ for all unit vectors $d$ which can only happen if $beta=0$, but both cannot be zero simultaneously.
+	To finish up: First, $alpha>=0$ follows from taking $t -> infinity$, which is compatible with the epigraph. Finally, there exists $epsilon>0$ such that $y=x+epsilon d in K$ for all unit vectors $d$. Then, if $alpha=0$, note that $beta^top (y-x)=beta^top d epsilon>=0$ for all unit vectors $d$ which can only happen if $beta=0$, but both cannot be zero simultaneously.
 ]
 
 #exercise[

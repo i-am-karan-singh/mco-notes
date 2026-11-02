@@ -5,6 +5,6 @@
 
 #include "intro.typ"
 #include "convex.typ"
-//#include "conic.typ"
+#include "conic.typ"
 #include "assign1.typ"
-//#include "assign2.typ"
+#include "assign2.typ"
