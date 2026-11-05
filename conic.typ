@@ -1,7 +1,11 @@
 #import "47851.typ": *
-#show: lecture.with([Conic Programming and Duality (WIP)], 3)
+#show: lecture.with([Conic Programming and Duality], 3)
+
+s
 
 #outline()
+
+= From Linear Programs to Conic Programs
 
 Let's recall linear programming duality. We'll build up to conic duality in the next two lectures, and this will serve as a good comparison.
 
@@ -30,6 +34,8 @@ Lines underscore equivalence of the stated conditions. Conic programs generalize
 #align(center)[
   *General conic program:* $max c^top x$ subject to $A x=b$, $x in K$.
 ]
+
+= A Hierarchy of Conic Programs
 
 #example(title: "Examples of admissible cones")[
   + $RR_(>=0)^n$ gives linear programs.
@@ -72,8 +78,6 @@ Let's talk about SDPs. SDPs are tricky.
   Why not impose linear constraints as $A x=B$? Not all linear constraints can be written this way, e.g., $X_(11)=0$, which is same as $0=e_1^top X e_1=upright("Tr")(X e_1 e_1^top)$.
 ]
 
-//#image("assets/sdp_nonattainment.png", width: 17%)
-
 #exercise[
   Write $max c^top x$ subject to $A x>=b$ as a SDP.
 ]
@@ -110,7 +114,7 @@ Using this, $norm(A x+b)<=c x+d$ iff
 $ mat((c x+d)I,A x+b;(A x+b)^top,c x+b)⪰0. $
 (Handle the case when $c x+d=0$ separately.) Thus, SOCPs $subset.eq$ SDPs.
 
-= Approximation algorithms for MaxCut
+= Application: Approximation Algorithms for MaxCut
 
 Maximum cut on a graph asks for $max_(S subset.eq V) |(S times (V-S)) inter E|$. $upright("Cut")(S)$ = Edges crossing between $S$ and $V-S$.
 
@@ -200,7 +204,7 @@ In fact, the proof of the theorem provides a $2/pi approx 0.636$ approximation a
   &>=2/pi SDP. $
 ]
 
-= Stabilizability of linear systems
+= Application: Stabilizability of Linear Dynamical Systems
 
 Let's do another application, before we move onto SDP duality, and then finally conic duality.
 
@@ -283,7 +287,7 @@ For this program, one does once again perform bisection with $succ$ constraints.
 
 What we were able to accomplish in the last step (an exact reformulation) was a lucky coincidence. As an example, if we want to impose a box constraint on $K$, we can do so in (1) which was (nominally) non-convex anyways, but now an exact reformulation such as (2) as an SDP is no longer possible. In fact, this problem is NP-hard.
 
-= Deriving SDP duals
+= Deriving SDP Duals
 
 #claim[
   $ min_(x in X) max_(y in Y) f(x,y) >= max_(y in Y) min_(x in X) f(x,y). $
@@ -326,7 +330,7 @@ By our claim, we always used the correct $>=$ relations. Hence, we have weak dua
 
 #lemma[For any primal feasible $X$, dual feasible $lambda$, we have $upright("Tr")(C X)>=b^top lambda$.]
 
-= Conic duality
+= Conic Duality
 
 Consider $min c^top x$ subject to $A x >=_K b$. Before we get to strong duality, it is worth noting that it's not clear how we even define a dual in the first place. For LPs, our derivation was based on the fact that non-negative combinations of vector inequalities always collapse to valid scalar inequalities. But this is not true for CPs.
 
@@ -414,7 +418,7 @@ By symmetry, if D is bounded above and strictly feasible ($y>_(K_*)0$) then P is
   for all $c^top x<=P^*$. We are done. If $alpha=0$, $A^top y=0$ whereas $b^top y>0$ for there exists $x$, $A x>_K b$. $y in K_*$ is not null, and hence $y^top(A x-b)>0$ $=>$ $c^top x<=P^*$ yet $y^top A x=0>b^top y$. This is a contradiction because then $c^top x<=P^*$ has to empty.
 ]
 
-= S-lemma
+= The S-Lemma
 
 Consider a non-convex QCQP $min_x q_a(x)=x^top Q_a x+q_a^top x+c_a$ subject to $q_b(x)=x^top Q_b x+q_b^top x+c_b>=0$. $Q_a,Q_b$ are arbitrary, need not be $Q_a⪰0$, $Q_b⪰0$.
 

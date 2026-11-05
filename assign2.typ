@@ -29,7 +29,7 @@ $
   ({i, j} in E_A "or" i = j) quad "and" quad ({k, ell} in E_B "or" k = ell).
 $
 
-*Part C.* Show that $X, Y succ.eq 0$ implies $X times.o Y succ.eq 0$. For $A in RR^(m times n)$ and $B in RR^(p times q)$, the Kronecker product is
+*Part C.* Show that $X, Y succ.eq 0$ implies $X times.o Y succ.eq 0$. For $A in RR^(m times n)$ and $B in RR^(p times q)$, the Kronecker product $A times.o B$ is defined as
 $
   A times.o B = mat(
     delim: "[",
@@ -39,8 +39,10 @@ $
   ).
 $
 
-*Part D.* Show that $nu (G_A times.square G_B) <= J(G_A) J(G_B)$.
+*Part D.* Show that $nu (G_A times.square G_B) <= nu(G_A) nu(G_B)$.
 
-_Hint:_ Use the SDP dual.
+_Hint:_ Use the dual SDP.
 
-*Part E.* Show that $nu (G) >= Theta(G)$ and $sqrt(5) >= nu(C_5) >= Theta(C_5) >= sqrt(5)$.
+*Part E.* Show that $nu (G) >= Theta(G)$ and use this to show $nu(C_5) = Theta(C_5) = sqrt(5)$.
+
+_Hint:_ Numerically solving the SDP to see if it is close enough to $sqrt(5)$ is an acceptable proof.
