@@ -199,10 +199,9 @@ $
 	&min_X angle(C, X) text(" subject to ") angle(A_i, X)=b_i forall i in [m] text(" and ") X succ.eq 0 \
 	= &min_(X succ.eq 0) max_(y in RR^m) angle(C, X)+sum_(i=1)^m y_i (b_i-angle(A_i, X))\
 	= &min_(X succ.eq 0) max_(y in RR^m) b^top y + angle(C-sum_(i=1)^m y_i A_i, X)\
-	>=&max_(y in RR^m) min_(X succ.eq 0)  b^top y + angle(C-sum_(i=1)^m y_i A_i, X)\
-	= &max_(y in RR^m) cases(b^top y & "if " C succ.eq sum_(i=1)^m y_i A_i, -infinity & "otherwise").
+	>=&max_(y in RR^m) min_(X succ.eq 0)  b^top y + angle(C-sum_(i=1)^m y_i A_i, X).
 $
-To simply the inner optimization problem, note that if $C succ.not.eq sum_(i=1)^m y_i A_i$, there exists an eigenvectors $u$ with eigenvector $lambda$ such that $u^top (C - sum_(i=1)^m y_i A_i) u = lambda < 0$. So, we can take $X=alpha u u^top$ with $lambda -> +infinity$, so that $angle(C - sum_(i=1)^m y_i A_i, X) = alpha u^top (C - sum_(i=1)^m y_i A_i) u -> -infinity$, which is the same as infeasibility for a maximization program. Also if $C succ.eq sum_(i=1)^m y_i A_i$ then for all $X succ.eq 0$, $angle(C succ.eq sum_(i=1)^m y_i A_i,X)>=0$, in which case the inner minimizer might as well choose $X=0$.
+To simplify the inner optimization problem, note that if $C succ.not.eq sum_(i=1)^m y_i A_i$, there exists an eigenvectors $u$ with eigenvector $lambda$ such that $u^top (C - sum_(i=1)^m y_i A_i) u = lambda < 0$. So, we can take $X=alpha u u^top$ with $alpha -> +infinity$, so that $angle(C - sum_(i=1)^m y_i A_i, X) = alpha u^top (C - sum_(i=1)^m y_i A_i) u -> -infinity$, which is the same as infeasibility for a maximization program. Also if $C succ.eq sum_(i=1)^m y_i A_i$ then for all $X succ.eq 0$, we have that $angle(C - sum_(i=1)^m y_i A_i,X)>=0$, in which case the inner minimizer might as well choose $X=0$.
 
 #lemma[$A⪰0$, $B⪰0$ $=>$ $angle(A,B)>=0$.]
 
