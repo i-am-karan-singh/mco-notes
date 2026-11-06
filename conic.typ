@@ -1,7 +1,7 @@
 #import "47851.typ": *
 #show: lecture.with([Conic Programming and Duality], 3)
 
-s
+This marks the beginning of the second unit of the course. So far, we have treated convexity at an abstract (generic) level. In this unit, we will look at structured optimization problems, where we can peek at the internals and try to make more fine-grained statements. We will begin by trying to generalize the best-understood family of convex programs: linear programs.
 
 #outline()
 
@@ -9,112 +9,227 @@ s
 
 Let's recall linear programming duality. We'll build up to conic duality in the next two lectures, and this will serve as a good comparison.
 
-#align(center)[
-  *Dual:* $min c^top x$, $A x>=b$. *Primal:* $max b^top y$, $A^top y=c$, $y>=0$.
-]
+$
+	text("Dual: ", weight: "bold") min &c^top x #h(6em) text("Primal: ", weight: "bold") max &b^top y\
+	text("subject to") &A x>=b. #h(6em) text("subject to") &A^top y=c,\
+	& & y>=0.
+$
 
 *Observation:* For any primal feasible $y$ and dual feasible $x$, $c^top x>=b^top y$. This is called weak duality.
 
-#theorem[These conditions are equivalent:
-  (A) dual is feasible & bounded below, \
-  (B) primal is feasible & bounded above, \
-  (C) dual is solvable, \
-  (D) primal is solvable, \
-  (E) both primal & dual are feasible. \
-  Whenever they hold, both primal & dual are equal in value.]
+#theorem(title: "Strong LP Duality")[
+	These conditions are equivalent:
+		+ Dual is feasible & bounded below.
+		+ Primal is feasible & bounded above.
+		+ Dual is solvable.
+		+ Primal is solvable.
+		+ Both primal & dual are feasible. \
+	Whenever they hold, both primal and dual are equal in value.
+]
 
-$=>$ in the dual satisfies $y>=0 equiv y in K=RR_(>=0)^n$.
+Let us try to abstract what $>=$ in the dual means. Of course, we know that for LPs, this corresponds to a cooridnate-wise comparison of vectors, but our goal is to isolate the essential structure.
 
-For all $a,b,c,d in RR^n$ which satisfies that and $lambda in RR_(>=0)$, (1) $a>=a$, (2) $a>=b$ & $b>=c$ $=>$ $a>=c$, (3) $a>=b$ & $b>=a$ $=>$ $a=b$, (4) $a>=b$ & $c>=d$ $=>$ $a+c>=b+d$, (5) $a>=b$ $=>$ $lambda a>=lambda b$.
+For all $a,b,c,d in RR^n$ and $lambda in RR_(>=0)$, it is true that
++ $a>=a$,
++ $a>=b$ & $b>=c$ $=>$ $a>=c$,
++ $a>=b$ & $b>=a$ $=>$ $a=b$,
++ $a>=b$ & $c>=d$ $=>$ $a+c>=b+d$,
++ $a>=b$ $=>$ $lambda a>=lambda b$.
 
-(1) $K$ is a cone. (2) $K$ is pointed, i.e., $a in K$ & $-a in K$ $=>$ $a=0$. (3) $K$ is closed under addition. These are related as $a>=b equiv a-b in K$.
+#definition[
+	A set $K$ in a real vector space is a cone if for all $lambda >=0$ and  $x in K$, $lambda x in K$.
+]
 
-Lines underscore equivalence of the stated conditions. Conic programs generalize LPs from $RR_(>=0)^n$ to arbitrary, closed convex pointed cones with non-empty interiors. A general conic program involves linear optimization over a feasible set, which is an intersection of an affine space and such a cone.
+#exercise[
+	Show that a cone is convex if and only if it is closed under addition.
+]
+
+Similarly, in the primal, $y>=0 equiv y in K=RR_(>=0)^n$, where
++ $K$ is a cone,
++ $K$ is pointed, i.e., $a in K$ & $-a in K$ $=>$ $a=0$,
++ $K$ is closed under addition.
+
+Thankfully, with the interpretation that $a>=b equiv a-b in K$, these two generalizations (or abstractions) can be seen to be equivalent. For example:
++ $a>=a$ follows from $K$ being a cone.
++ $a>=b$ & $b>=c$ $=>$ $a>=c$ follows from $K$ being a cone and closed under addition.
++ $a>=b$ & $b>=a$ $=>$ $a=b$ follows from $K$ being pointed.
++ $a>=b$ & $c>=d$ $=>$ $a+c>=b+d$ follows from $K$ being closed under addition.
++ $a>=b$ $=>$ $lambda a>=lambda b$ follows from $K$ being a cone.
+
+Conic programs generalize LPs from $RR_(>=0)^n$ to arbitrary, closed convex pointed cones with non-empty interiors. (More on the non-empty interior condition in a couple of lectures.) A general conic program involves linear optimization over a feasible set, which is an intersection of an affine space and such a cone.
 
 #align(center)[
-  *General conic program:* $max c^top x$ subject to $A x=b$, $x in K$.
+  $
+  	max &c^top x \
+  	text("subject to") &A x=b,\
+  	&x in K.
+  $
+  *A general conic program.*
 ]
 
 = A Hierarchy of Conic Programs
 
-#example(title: "Examples of admissible cones")[
-  + $RR_(>=0)^n$ gives linear programs.
-  + The Lorentz cone $cal(L)^(n+1)={(t,x):t>=norm(x)_2}$ gives SOCPs (second-order conic programs).
-  + $S_+^(n times n)={S:S⪰0}$ gives rise to SDPs (semi-definite programs).
-]
+Conic programs can in fact represent any convex program. Let's do this in two steps. First, we can always make the objective linear.
+$
+	min_(x in K) f(x) equiv min_((t,x) in upright("epi")(f)) t.
+$
+To finish, we need to make the set a cone. Consider the cone $C(K) = {lambda (1, x): lambda>=0, x in K}$.
+$
+	min_(x in K) c^top x equiv &min c^top x\
+	&text("subject to") t=1 \
+	&text("and ") (t, x) in C(K).
+$
 
-Note $angle(A,B)=upright("Tr")(A^top B)$ below, and $angle(A,A)=norm(A)_F^2=sum_(i,j=1)^n A_(i j)^2$.
+So to specialize, we will look at _specific_ cones. Examples of admissible cones:
++ $RR_(>=0)^n$ gives us linear programs.
++ The Lorentz cone $cal(L)^(n+1)={(t,x):t>=norm(x)_2}$ gives us SOCPs (second-order conic programs).
++ $S_+^(n times n)={S:S succ.eq 0}$ gives us SDPs (semi-definite programs).
 
-$ upright("LPs") subset.eq upright("QPs") subset.eq upright("QCQPs") subset.eq upright("SOCPs") subset.eq upright("SDPs"). $
+Let us define a bunch of optimization problems.#align(center)[
+  *QPs:* $min x^top Q x+q^top x+d$ with $A x<=b$.
 
-#align(center)[
-  *Convex QPs:* $min x^top Q x+q^top x+d$ with $A x<=b$.
-]
+  *QCQPs:* $min x^top Q x+q^top x+d$ with $x^top Q_i x+q_i^top x+d_i<=0$ for all $i in [m]$.
 
-#align(center)[
-  *Convex QCQPs:* $min x^top Q x+q^top x+d$ with $x^top Q_i x+q_i^top x+d_i<=0$ for all $i in [m]$.
-]
-
-#align(center)[
   *SOCPs:* $min f^top x$ with $norm(A_i x+b_i)_2<=c_i^top x+d_i$ for all $i in [m]$.
+
+  *SDPs:* $min tr(C X)$ with $tr(A_i X)=b_i$ for all $i in [m]$, $X⪰0$.
 ]
 
-#align(center)[
-  *SDPs:* $min upright("Tr")(C X)$ with $upright("Tr")(A_i X)=b_i$ for all $i in [m]$, $X⪰0$.
-]
+SOCPs and SDPs are always convex programs. But that is not true for Quadratic Programs (QPs) and Quadratically Constrained Quadratic Programs (QCQPs). More carefully, Convex QPs are those where $Q succ.eq 0$, and similarly Convex QCQPs are those with $Q, Q_1, dots Q_m succ.eq 0$.
 
-Let's talk about SDPs. SDPs are tricky.
+Note that below $angle(A,B)=tr (A^top B) = sum_(i,j=1)^n A_(i j) B_(i j)$ and $angle(A,A)=norm(A)_F^2=sum_(i,j=1)^n A_(i j)^2$.
+
+*On SOCPs:* Let's take a second to appreciate why SOCPs as described can be written as the intersection of an affine space and the Lorentz cone. Clearly:
+$ norm(A x+b)_2<=c x+d equiv (c x+d,A x+b) in cal(L)^(n+1). $
+
+This is an affine map. Recall any (linear) subspace can be expressed as the column-space of a matrix (the generator view) and as the null-space of another (the constraint view). Thus, by the fundamental theorem of linear algebra, there exist $E,f$ such that
+$ {(c x+d,A x+b):x in RR^n}={y:E y=f}. $
+
+As a concrete example, consider that
+$
+	{mat(1; 2)x: x in RR} equiv {y: mat(2; -1)^top y = 0}.
+$
+Essentially, the null-space vectors are all the orthogonal vectors the generators leave out. Thus, this equivalence can also be algorithmically carried out by Gram-Schmidt. Geometrically, we are appealing to the fact that all hyperplanes can be described by an anchoring point and a bunch of vectors to create the span about the anchoring point, and equivalently as the anchoring point together with a normal vector to the hyperplane.
+
+*On SDPs:* Let's talk about SDPs. SDPs are tricky.
+
+Why not impose linear constraints as $A X=B$ instead? Not all linear constraints can be written this way, e.g., $X_(11)=0$, which is same as $0=e_1^top X e_1=tr(X e_1 e_1^top)$.
 
 #example[
   SDPs can have infinitely many extreme points.
-  $ S={(x,y):x^2+y^2<=1}={(x,y):mat(1+x,y;y,1-x)⪰0}. $
+  $ S={(x,y):x^2+y^2<=1}={(x,y):mat(1+x,y;y,1-x) succ.eq 0}. $
 ]
 
 #example[
-  For SDPs, feasibility & bounded below $⇏$ solvable. $min x_1$, $mat(x_1,1;1,x_2)⪰0$.
+  For SDPs, feasibility & bounded below $⇏$ solvable.
+  $ min x_1 text(" subject to ") mat(x_1,1;1,x_2) succ.eq 0. $
 ]
 
-#example[
-  Why not impose linear constraints as $A x=B$? Not all linear constraints can be written this way, e.g., $X_(11)=0$, which is same as $0=e_1^top X e_1=upright("Tr")(X e_1 e_1^top)$.
-]
-
-#exercise[
-  Write $max c^top x$ subject to $A x>=b$ as a SDP.
+#theorem[
+	$upright("LPs") subset.eq upright("Convex QPs") subset.eq upright("Convex QCQPs") subset.eq upright("SOCPs") subset.eq upright("SDPs")$.
 ]
 
 #exercise[
-  Write a convex generic QCQP as a SOCP. For any $Q=sum_i lambda_i u_i u_i^top⪰0$, $Q^(1/2)=sum_i sqrt(lambda_i)u_i u_i^top⪰0$. You might be tempted with
-  $ x^top Q x+2q^top x+d<=0 equiv norm(Q^(1/2)x+Q^(-1/2)q)_2<=sqrt(q^top Q q-d), $
-  but this only works if $Q succ 0$ (strictly). How to handle $Q⪰0$?
+  Write $max c^top x$ subject to $A x>=b$ as directly an SDP.
 ]
 
-Also, let's take a second to understand why SOCPs as described can indeed be written as the intersection of an affine space and the Lorentz cone. Clearly,
-$ norm(A x+b)_2<=c x+d equiv (c x+d,A x+b) in cal(L)^(n+1). $
+A useful result in proving the above theorem is next.
 
-This is an affine map. Thus, by the fundamental theorem of linear algebra, there exist $E,f$ such that
-$ {(c x+d,A x+b):x in RR^n}={y:E y=f}. $
-Recall any (linear) subspace can be expressed as the columnspace of a matrix and as the null-space of another.
+#lemma(title: "Schur Complements")[
+	Let $A succ 0$. Then $ X=mat(A,B;B^top,C) succ.eq 0 text(" if and only if ") C-B^top A^(-1)B succ.eq 0. $
+  Here $C-B^top A^(-1)B$ is called the Schur complement of $A$ in $X$.
+]
+
+#proof[
+	Verify the following factorization:
+  $ X=mat(I,0;B^top A^(-1),I) mat(A,0;0,C-B^top A^(-1)B) mat(I,A^(-1)B;0,I) = P^top S P. $
+  The first and last matrices are transposes of the other and invertible. In fact, for any triangular matrix, its eigenvalues can be read off the diagonal. (Why?)
+
+  Note that $x^top X x = (P x)^top S (P x)$ and $y^top S y = (P^(-1) y)^top X (P^(-1) y)$. Hence, $X succ.eq 0$ if and only if the middle matrix is PSD if and only if $C-B^top A^(-1)B succ.eq 0$.
+]
+
+In fact, such matrices $S$ and $X$ are said to be _congruent_. A well-know fact, although not common in a first linear-algebra course, is that $P$ and $X$ have the same _inertia_, where inertia of a matrix is a 3-tuple composed of the number of positive, negative, and zero eigenvalues. Thus
+$ upright("inertia")(X) = upright("inertia")(A) + upright("inertia")(C-B^top A^(-1) B), $
+of which we are proving a special case.
+
+A related notion that I sometimes confuse this with is _similar_ matrices. If $S$ and $X$ were similar, then it would hold that $X=P^(-1) S P$, and a much stronger conclusion would follow that all eigenvalues are preserved in similarity transformation. (Correct me if this happens!)
+
+We are now ready to prove the main theorem.
+
+#proof[
+	The first two inclusions are straightforward. We can take $Q=0$ and $Q_i=0$, respectively.
+
+	*(Convex QCQPs $subset.eq$ SOCPs)* For any $Q=sum_i lambda_i u_i u_i^top⪰0$, we can define $Q^(1/2)=sum_i sqrt(lambda_i)u_i u_i^top⪰0$. Thus completing the square
+	$ x^top Q x+2q^top x+d <= 0 equiv norm(Q^(1/2)x+Q^(-1/2)q)_2 <= sqrt(q^top Q q-d), $
+	but this only works if $Q succ 0$ (strictly).
+
+	*(SOCPs $subset.eq$ SDPs)* Using the Schur Complement Lemma, $norm(A x+b)<=c x+d$ if and only if
+	$ c^top x+d - norm(A x+b)^2 / (c^top x+d) >= 0 equiv mat((c x+d)I,A x+b;(A x+b)^top,c x+d) succ.eq 0. $
+	This is clear if $c^top x+d>0$. Incidentally the end-to-end conclusion also works when $c^top x+d=0$. (Why?) Thus, SOCPs $subset.eq$ SDPs.
+]
 
 #exercise[
-  Show that any convex optimization problem can be recast as a conic program (for some cone).
+	Fix the above proof so that QCCPs can be written as SOCPs even when $Q succ.eq 0$.
+
+	_Hint:_ There are many ways to do this. For example, via SVDs, though not directly; not clear why we can tolerate a $sqrt(text("linear function"))$ term on the RHS. One idea is to make use of the following observation:
+	$ norm(mat(x; y-1))_2 <= y+1 equiv x^2 <= 4y $
 ]
 
-#block(breakable: false)[
-  #lemma(title: "Schur complement lemma")[
-    Let $A succ 0$. Then $X=mat(A,B;B^top,C)⪰0$ iff $C-B^top A^(-1)B⪰0$. Schur complement of $A$ in $X$.
-  ]
+= Deriving SDP Duals
 
-  #proof[
-    $ X=mat(I,0;B^top A^(-1),I) mat(A,0;0,C-B^top A^(-1)B) mat(I,A^(-1)B;0,I). $
-    (Verify!) These are transposes of the other and invertible. Hence, $X⪰0$ iff the middle matrix is PSD iff $C-B^top A^(-1)B⪰0$.
-  ]
+Here we will find a way to derive SDP duals. The proof of strong duality will come next week. All dualities start with the following elementary lemma. In words, it says without assuming anything about the function $f$, the second mover has the ultimate say. If min/max do not exist, interpret these as inf/sup for this section.
+
+#lemma[ $min_(x in X) max_(y in Y) f(x,y) >= max_(y in Y) min_(x in X) f(x, y)$. ]
+
+#proof[
+  Clearly, for all $x in X$, $y in Y$, $f(x,y)>=min_(x in X) f(x,y)$. Also, $max_(y in y) g(y)>=max_(y in y) h(x)$ is a valid conclusion if $g(y)>=h(y)$ for all $y in y$. Using this, we get for all $x in X$ that
+  $ max_(y in Y) f(x,y)>=max_(y in Y) min_(x in X) f(x,y). $
+
+  Because the last inequality holds for all $x in X$, we also have that
+  $ min_(x in X) max_(y in Y) f(x,y)>=max_(y in Y) min_(x in X) f(x,y). $
 ]
 
-Using this, $norm(A x+b)<=c x+d$ iff
-$ mat((c x+d)I,A x+b;(A x+b)^top,c x+b)⪰0. $
-(Handle the case when $c x+d=0$ separately.) Thus, SOCPs $subset.eq$ SDPs.
+Let's try to apply this to SDPs. To begin, we have
+$
+	&min_X angle(C, X) text(" subject to ") angle(A_i, X)=b_i forall i in [m] text(" and ") X succ.eq 0 \
+	= &min_(X succ.eq 0) max_(y in RR^m) angle(C, X)+sum_(i=1)^m y_i (b_i-angle(A_i, X))
+$
+This works becasue if there exists some $i in [m]$ such that $b_i > angle(A_i, X)$, then $y_i->infinity$ making a minimization program approach $+infinity$ in value, which by convention is same as infeasibility. Similarly, if $b_i < angle(A_i, X)$, then $y_i-> -infinity$ making a minimization program again approach $+infinity$ in value. Now, we use by minimax result as
+$
+	&min_X angle(C, X) text(" subject to ") angle(A_i, X)=b_i forall i in [m] text(" and ") X succ.eq 0 \
+	= &min_(X succ.eq 0) max_(y in RR^m) angle(C, X)+sum_(i=1)^m y_i (b_i-angle(A_i, X))\
+	= &min_(X succ.eq 0) max_(y in RR^m) b^top y + angle(C-sum_(i=1)^m y_i A_i, X)\
+	>=&max_(y in RR^m) min_(X succ.eq 0)  b^top y + angle(C-sum_(i=1)^m y_i A_i, X)\
+	= &max_(y in RR^m) cases(b^top y & "if " C succ.eq sum_(i=1)^m y_i A_i, -infinity & "otherwise").
+$
+To simply the inner optimization problem, note that if $C succ.not.eq sum_(i=1)^m y_i A_i$, there exists an eigenvectors $u$ with eigenvector $lambda$ such that $u^top (C - sum_(i=1)^m y_i A_i) u = lambda < 0$. So, we can take $X=alpha u u^top$ with $lambda -> +infinity$, so that $angle(C - sum_(i=1)^m y_i A_i, X) = alpha u^top (C - sum_(i=1)^m y_i A_i) u -> -infinity$, which is the same as infeasibility for a maximization program. Also if $C succ.eq sum_(i=1)^m y_i A_i$ then for all $X succ.eq 0$, $angle(C succ.eq sum_(i=1)^m y_i A_i,X)>=0$, in which case the inner minimizer might as well choose $X=0$.
 
-= Application: Approximation Algorithms for MaxCut
+#lemma[$A⪰0$, $B⪰0$ $=>$ $angle(A,B)>=0$.]
+
+#proof[
+	Let the spectral decoposition of $A$ be $A=sum_i lambda_i u_i u_i^top$. Here $A succ.eq 0 => lambda_i >= 0$. Hence
+	$
+		angle(A,B)&=sum_i lambda_i angle(u_i u_i^top, B) \
+		&=sum_i lambda_i u_i^top B u_i>=0.
+	$
+]
+
+Using all this, we get
+$
+	&min_X angle(C, X) text(" subject to ") angle(A_i, X)=b_i forall i in [m] text(" and ") X succ.eq 0 \
+	>=&max_(y in RR^m) min_(X succ.eq 0)  b^top y + angle(C-sum_(i=1)^m y_i A_i, X)\
+	= &max_(y in RR^m) cases(b^top y & "if " C succ.eq sum_(i=1)^m y_i A_i, -infinity & "otherwise")\
+	= &max_(y in RR^m) b^top y text(" subject to ") C succ.eq sum_(i=1)^m y_i A_i.
+$
+This is the dual we sought. An inequality of the form $A_0 + sum_(i=1)^m y_i A_i succ.eq 0$ with variables $y_i$ is called a _linear matrix inequality_. Again, it might not obvious at first sight if this dual is a SDP too. However, the LMI constraint is a PSD constraint on an affine map, and hence representable as intersection of an affine space and the PSD cone. Hence, the dual is a SDP too.
+
+By the minimax claim, the only used inequality was a valid one. Hence, we have weak duality by construction.
+
+#lemma[
+	For any primal feasible $X$, dual feasible $y$, we have $angle(C, X)>=b^top y$.
+]
+
+= Application: Approximation Algorithms for MaxCut (WIP)
 
 Maximum cut on a graph asks for $max_(S subset.eq V) |(S times (V-S)) inter E|$. $upright("Cut")(S)$ = Edges crossing between $S$ and $V-S$.
 
@@ -164,15 +279,6 @@ In fact, the proof of the theorem provides a $2/pi approx 0.636$ approximation a
   $ BQP>=EE x^top A x=sum_(i,j) A_(i j) EE x_i x_j
   =2/pi angle(A,sin^(-1)X), $
   applied elementwise.
-
-  #lemma[$A⪰0$, $B⪰0$ $=>$ $angle(A,B)>=0$.]
-
-  #proof[
-    Let $A=sum_i lambda_i u_i u_i^top$.
-    $ angle(A,B)&=sum_i lambda_i angle(u_i u_i^top,B) \
-    &=sum_i lambda_i u_i^top B u_i>=0. $
-
-  ]
 
   #lemma[$A⪰0$, $B⪰0$ $=>$ $A ⊙ B⪰0$. $⊙$ is element-wise product.]
 
@@ -286,49 +392,6 @@ At first glance, this might seem like a relaxation, we used $L=K P$ to get a (ne
 For this program, one does once again perform bisection with $succ$ constraints.
 
 What we were able to accomplish in the last step (an exact reformulation) was a lucky coincidence. As an example, if we want to impose a box constraint on $K$, we can do so in (1) which was (nominally) non-convex anyways, but now an exact reformulation such as (2) as an SDP is no longer possible. In fact, this problem is NP-hard.
-
-= Deriving SDP Duals
-
-#claim[
-  $ min_(x in X) max_(y in Y) f(x,y) >= max_(y in Y) min_(x in X) f(x,y). $
-]
-
-If min/max do not exist, interpret these as inf/sup for this section and the next.
-
-#proof[
-  Clearly, for all $x in X$, $y in Y$, $f(x,y)>=min_(x in X) f(x,y)$. Also, $max_(x in X) g(x)>=max_(x in X) h(x)$ if $g(x)>=h(x)$ for all $x in X$. Using this, we get
-  for all $x in X$,
-  $ max_(y in Y) f(x,y)>=max_(y in Y) min_(x in X) f(x,y); $
-
-  hence
-  $ min_(x in X) max_(y in Y) f(x,y)>=max_(y in Y) min_(x in X) f(x,y). $
-]
-
-Applying this to SDPs:
-
-#align(center)[
-  $min_X upright("Tr")(C X)$ subject to $upright("Tr")(A_i X)=b_i$ for all $i in [m]$, $X⪰0$ (primal)
-]
-
-$ =min_(X⪰0) max_(lambda in RR^m) upright("Tr")(C X)+sum_(i=1)^m lambda_i(b_i-upright("Tr")(A_i X)) $
-
-$ =min_(X⪰0) max_(lambda in RR^m) b^top lambda+upright("Tr")((C-sum_i lambda_i A_i)X). $
-
-Why? If $b_i=upright("Tr")(A_i X)$, fine. If $b_i>upright("Tr")(A_i X)$, $lambda_i->infinity$. If $b_i<upright("Tr")(A_i X)$, $lambda_i->-infinity$.
-
-$ >=max_(lambda in RR^m) min_(X⪰0) b^top lambda+upright("Tr")((C-sum_i lambda_i A_i)X) $
-
-$ =max_(lambda in RR^m) cases(b^top lambda & "if " C⪰sum_i lambda_i A_i, -infinity & "otherwise") $
-
-since $upright("Tr")(Y Z)>=0$ for all $Y,Z⪰0$, and one can choose $X=0$. Otherwise there exists $u$ such that $u^top(C-sum_i lambda_i A_i)u<0$ and one can choose $X=alpha u u^top$, $alpha->infinity$.
-
-#align(center)[
-  $=max_(lambda in RR^m) b^top lambda$ subject to $C⪰sum_i lambda_i A_i$ (dual). This is a PSD constraint on an affine map, hence representable as intersection of an affine space and the PSD cone, hence is a SDP.
-]
-
-By our claim, we always used the correct $>=$ relations. Hence, we have weak duality by construction.
-
-#lemma[For any primal feasible $X$, dual feasible $lambda$, we have $upright("Tr")(C X)>=b^top lambda$.]
 
 = Conic Duality
 
@@ -459,18 +522,18 @@ $ (x,1)^top mat(Q_a-lambda Q_b,(q_a-lambda q_b)/2;(q_a-lambda q_b)^top/2,c_a-gam
 
 Finally, we'll prove S-lemma. Let's start with something simpler.
 
-#lemma[For symmetric $A,B$, $upright("Tr")(A)>=0>upright("Tr")(B)$ $=>$ there exists $x$ such $x^top A x>=0$ and $x^top B x<0$.]
+#lemma[For symmetric $A,B$, $tr(A)>=0>tr(B)$ $=>$ there exists $x$ such $x^top A x>=0$ and $x^top B x<0$.]
 
 #proof[
-  Two observations: for any $x in {-1,1}^n$, $x^top D x=upright("Tr")(D)$ for any diagonal $D$, since $x_i^2=1$. Secondly, for any matrix $M$,
-  $ EE_(x ∼ upright("Unif")({-1,1}^n)) x^top M x=upright("Tr")(M). $
+  Two observations: for any $x in {-1,1}^n$, $x^top D x=tr(D)$ for any diagonal $D$, since $x_i^2=1$. Secondly, for any matrix $M$,
+  $ EE_(x ∼ upright("Unif")({-1,1}^n)) x^top M x=tr(M). $
 
   Now choose $xi ∼ upright("Unif")({-1,1}^n)$, $x=U xi$, where $B=U Lambda U^top$ diagonal.
   $ x^top B x&=xi^top U^top U Lambda U^top U xi \
-  &=upright("Tr")(Lambda)=upright("Tr")(Lambda U^top U)=upright("Tr")(B)<0, $
+  &=tr(Lambda)=tr(Lambda U^top U)=tr(B)<0, $
   yet
   $ EE x^top A x&=EE xi^top(U^top A U)xi \
-  &=upright("Tr")(U^top A U)=upright("Tr")(A U U^top)=upright("Tr")(A)>=0. $
+  &=tr(U^top A U)=tr(A U U^top)=tr(A)>=0. $
 
   Therefore, there exists $x$ such $x^top A x>=0$ and $x^top B x<0$.
 ]
@@ -480,11 +543,11 @@ Finally, we'll prove S-lemma. Let's start with something simpler.
 #proof[
   Consider $OPT=min_(x^top A x>=0) x^top B x$. Say for all $x$, $x^top A x>=0$ $=>$ $x^top B x>=0$ and there exists $macron(x)$, $macron(x)^top A macron(x)>0$. Then $OPT=0$. Consider $OPT'=min_(x^top A x>=0, x^top x=n) x^top B x$. $OPT'$ is also strictly feasible; $OPT'>=0$.
   #align(center)[
-    $equiv min_X upright("Tr")(B X)$ subject to $upright("Tr")(A X)>=0$, $upright("Tr")(X)=n$, $X⪰0$, $X$ is rank 1.
+    $equiv min_X tr(B X)$ subject to $tr(A X)>=0$, $tr(X)=n$, $X⪰0$, $X$ is rank 1.
   ]
 
   #align(center)[
-    $>= min_X upright("Tr")(B X)$ subject to $upright("Tr")(A X)>=0$, $upright("Tr")(X)=n$, $X⪰0$ (SDP).
+    $>= min_X tr(B X)$ subject to $tr(A X)>=0$, $tr(X)=n$, $X⪰0$ (SDP).
   ]
 
   #align(center)[
@@ -498,7 +561,7 @@ Finally, we'll prove S-lemma. Let's start with something simpler.
   Let's say we guarantee that SDP $>=0$ and that strong duality holds. Then, we are done as then there exist $u,lambda>=0$ such $B⪰u I+lambda A$ and hence there exists $lambda>=0$, $B⪰lambda A$.
 
   Take
-  $ macron(X)=(macron(x)macron(x)^top+alpha I)/upright("Tr")(macron(x)macron(x)^top+alpha I) n, $
+  $ macron(X)=(macron(x)macron(x)^top+alpha I)/tr(macron(x)macron(x)^top+alpha I) n, $
   for small enough $alpha>0$, is strictly feasible for SDP. And for all $lambda>0$, there exists $u$ such $B succ u I+lambda A$. Thus the SDP dual is also strictly feasible and strong duality holds.
 
   #exercise[
@@ -506,9 +569,9 @@ Finally, we'll prove S-lemma. Let's start with something simpler.
   ]
 
   Now to argue SDP $>=0$, observe: Compactness ensures that it is solvable; let $X^*$ be the solution. There exists $L$, $X=L L^top$. Consider that
-  $ upright("Tr")(A X^*)=upright("Tr")(L^top A L)>=0, $
+  $ tr(A X^*)=tr(L^top A L)>=0, $
   and
-  $ upright("Tr")(B X^*)=upright("Tr")(L^top B L)=n u^*. $
+  $ tr(B X^*)=tr(L^top B L)=n u^*. $
   If $u^*<0$, then by our sign lemma, there exists $x$ such $(L x)^top A(L x)>=0$ and $(L x)^top B(L x)<0$. But this contradicts for all $x$, $x^top A x>=0$ $=>$ $x^top B x>=0$.
 ]
 
