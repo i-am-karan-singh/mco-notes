@@ -282,8 +282,6 @@ Similarly, one of the sets being bounded is necessary.
 	This works (anti)symmetrically for any $c' in C$.
 ]
 
-
-
 = Equivalent Conditions for Convexity
 
 #proposition[
