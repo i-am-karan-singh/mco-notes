@@ -98,7 +98,7 @@ To do this, we will consider high-order derivatives, for which the definition be
 	+ $S succ.eq 0$.
 	+ All eigenvalues of $S$ are non-negative.
 	+ $S = L L^top$ for some $L in RR^(n times k)$ for some $k$.
-	+ There exist vectors $v_1,dots,v_n in RR^n$ such that $S_(i j)=v_i^top v_j, forall i,j in [n]$.
+	+ There exist vectors $v_1,dots,v_n in RR^k$ for some $k$ such that $S_(i j)=v_i^top v_j, forall i,j in [n]$.
 	+ Determinants of all principal submatrices are non-negative.
 ]
 

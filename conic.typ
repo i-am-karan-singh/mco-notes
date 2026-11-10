@@ -101,7 +101,9 @@ SOCPs and SDPs are always convex programs. But that is not true for Quadratic Pr
 
 Note that below $angle(A,B)=tr (A^top B) = sum_(i,j=1)^n A_(i j) B_(i j)$ and $angle(A,A)=norm(A)_F^2=sum_(i,j=1)^n A_(i j)^2$.
 
-*On SOCPs:* Let's take a second to appreciate why SOCPs as described can be written as the intersection of an affine space and the Lorentz cone. Clearly:
+== The General Form of Second-Order Conic Programs
+
+Let's take a second to appreciate why SOCPs as described can be written as the intersection of an affine space and the Lorentz cone. Clearly:
 $ norm(A x+b)_2<=c x+d equiv (c x+d,A x+b) in cal(L)^(n+1). $
 
 This is an affine map. Recall any (linear) subspace can be expressed as the column-space of a matrix (the generator view) and as the null-space of another (the constraint view). Thus, by the fundamental theorem of linear algebra, there exist $E,f$ such that
@@ -113,7 +115,9 @@ $
 $
 Essentially, the null-space vectors are all the orthogonal vectors the generators leave out. Thus, this equivalence can also be algorithmically carried out by Gram-Schmidt. Geometrically, we are appealing to the fact that all hyperplanes can be described by an anchoring point and a bunch of vectors to create the span about the anchoring point, and equivalently as the anchoring point together with a normal vector to the hyperplane.
 
-*On SDPs:* Let's talk about SDPs. SDPs are tricky.
+== The General Form of Semi-Definite Programs
+
+Let's talk about SDPs. SDPs are tricky.
 
 Why not impose linear constraints as $A X=B$ instead? Not all linear constraints can be written this way, e.g., $X_(11)=0$, which is same as $0=e_1^top X e_1=tr(X e_1 e_1^top)$.
 
@@ -128,6 +132,8 @@ Why not impose linear constraints as $A X=B$ instead? Not all linear constraints
 ]
 
 #align(center)[#image("assets/nonattainment.svg")]
+
+== Back to The Hierarchy
 
 #theorem[
 	$upright("LPs") subset.eq upright("Convex QPs") subset.eq upright("Convex QCQPs") subset.eq upright("SOCPs") subset.eq upright("SDPs")$.
@@ -181,7 +187,11 @@ We are now ready to prove the main theorem.
 
 = Deriving SDP Duals
 
-Here we will find a way to derive SDP duals. The proof of strong duality will come next week. All dualities start with the following elementary lemma. In words, it says without assuming anything about the function $f$, the second mover has the ultimate say. If min/max do not exist, interpret these as inf/sup for this section.
+Here we will find a way to derive SDP duals. The proof of strong duality will come next week.
+
+== The Weak Minimax Theorem
+
+All dualities start with the following elementary lemma. In words, it says without assuming anything about the function $f$, the second mover has the ultimate say. If min/max do not exist, interpret these as inf/sup for this section.
 
 #lemma[ $min_(x in X) max_(y in Y) f(x,y) >= max_(y in Y) min_(x in X) f(x, y)$. ]
 
@@ -192,6 +202,8 @@ Here we will find a way to derive SDP duals. The proof of strong duality will co
   Because the last inequality holds for all $x in X$, we also have that
   $ min_(x in X) max_(y in Y) f(x,y)>=max_(y in Y) min_(x in X) f(x,y). $
 ]
+
+== Weak Duality for SDPs
 
 Let's try to apply this to SDPs. To begin, we have
 $
@@ -236,11 +248,15 @@ By the minimax claim, the only used inequality was a valid one. Hence, we have w
 
 In the next couple of sections, we will work through two applications of SDPs, one in the discrete math world and another in the continuous world.
 
+== Cuts and Laplacians
+
 A cut of a graph is a binary partition of the vertices, and its size is measured by the number of edges crossing across the partition. A canonical NP-hard problem asks for the maximum cut. $ max_(S subset.eq V) |(S times (V-S)) inter E|. $
 
 For a graph $G=(V,E)$, the Laplacian $L in RR^(n times n)$ is as follows $L_(i i)=deg(v_i)$ for all $i in [n]$ and for all $i!=j$, $L_(i j)=-bold(1){(v_i,v_j) in E}$. To see why this is useful, observe that
 $ x^top L x=sum_(i=1)^n deg(i)x_i^2-2 sum_((i,j) in E)x_i x_j=sum_((i,j) in E)(x_i-x_j)^2. $
 This means that $L succ.eq 0$. Also, for any $S subset.eq V$, we if let $x_S in RR^n$ be its (signed) characteristic vector, that is, $x_i = bold(1){x in S}-bold(1){x in.not S}$, then $1/4 x_S^top L x_S = upright("Cut")(S)$.
+
+== Nesterov's Approximation for BQPs
 
 In fact, consider any binary quadratic program with PSD cost matrix; MaxCut is a special case. Because any rank-1 PSD matrix can be expressed as $v v^top$, we have
 
@@ -304,6 +320,8 @@ Let us prove the following helper results first.
 
 Let's do another application, before we move onto conic duality.
 
+== Lyapunov Stability
+
 A fundamental question about dynamical system $x_(t+1)=f(x_t)$ is if their long-term behaviors can be neatly categorized. As a concrete question, consider a linear dynamical system $x_(t+1)=A x_t$. When does such a system always end up at $0$ (i.e., $x_t->0$ as $t->infinity$) regardless of initialization? (So for every $x_0$.) Such systems are called stable.
 
 #definition[A linear dynamical system with transition matrix $A$ is stable if $forall x_0 in RR^n$, $x_t=A^t x_0->0$ as $t->infinity$.]
@@ -347,6 +365,8 @@ Under such conditions, it is clear $V(x_t)$ decreases asymptotically. The surpri
 
 Note that ${P:P succ.eq I,c P succ.eq A^top P A}$ is a SDP feasibility program; and one can do bisection on the guess of $c$ in $[0,1)$, to solve it arbitrarily well.
 
+== Moving onto Stabilizability
+
 A more involved question is that of stabilizability. Consider a dynamical system with inputs: $x_(t+1)=A x_t+B u_t$. Many systems are not intrinsically stable, but can be stable under correct choice of control inputs. This is what stabilizability captures.
 
 #definition[A linear dynamical system $(A,B)$ with inputs is stabilizable if for all $x_0 in RR^n$, there exist $u_1,u_2,dots in RR^m$ such $x_t->0$ as $t->infinity$.]
@@ -385,6 +405,8 @@ What we were able to accomplish in the last step (an exact reformulation) was a 
 = Conic Duality
 
 In this section, we will ultimately prove strong duality for conic programs with general cones. For this, we will define generalized inequalities as $x >=_K y$ if $x-y in K$, where $K$ is a cone.
+
+== Dual Cones and Weak Conic Duality
 
 Consider $min c^top x$ subject to $A x >=_K b$. Before we get to strong duality, it is worth noting that it's not clear how we even define a dual in the first place. For LPs, our derivation was based on the fact that non-negative combinations of vector inequalities always collapse to valid scalar inequalities. But this is not true for CPs.
 
@@ -454,6 +476,8 @@ To progress towards strong duality, we need to understand the dual cone $K_*$ a 
 ]
 
 #corollary[$K$ is a closed convex pointed cone with non-empty interior if and only if $K_*$ is a closed convex pointed cone with non-empty interior.]
+
+== Proving Strong Conic Duality
 
 Going forward, we will work with closed convex pointed cones with non-empty interiors. We will in fact see why the non-empty interior bit is important. For now, let us note that without it the dual is not pointed.
 

@@ -7,12 +7,14 @@
 *Part A.* Let $a_i tilde cal(N)(mu_i, Sigma_i)$ be multivariate normal random vectors. Recast the following problem as an SDP assuming $1\/2 <= eta < 1$:
 $ max_x c^T x quad "subject to" quad Pr(a_i^T x <= b_i) >= eta quad (i = 1, dots, m). $
 
-*Part B.* Recast the following problem as an SDP:
-$ min_X (lambda_(max)(X)) / (lambda_(min)(X)) quad "subject to" quad ⟨A_i, X⟩ = b_i quad (i = 1, dots, m), quad X succ.eq 0. $
+*Part B.* Recast the following problem as an SDP with strict inequality constraints allowed:
+$ min_X (lambda_(max)(X)) / (lambda_(min)(X)) quad "subject to" quad ⟨A_i, X⟩ = b_i quad (i = 1, dots, m), quad X succ 0. $
 
 *Part C.* Recast the following problem as an SDP:
-$ min_(X in SS^n) sum_(j=1)^k lambda_j (X) quad "subject to" quad ⟨A_i, X⟩ = b_i quad (i = 1, dots, m), $
+$ min_(X in SS^(n times n)) sum_(j=1)^k lambda_j (X) quad "subject to" quad ⟨A_i, X⟩ = b_i quad (i = 1, dots, m), $
 where $lambda_1 (X) >= dots >= lambda_n (X)$ are the eigenvalues.
+
+_Hint:_ Recast $max_(U in RR^(n times k), U^top U = I) tr(U^top X U) = sum_(i=1)^k lambda_i (X)$ as an SDP and consider the dual.
 
 = Lovász's bound on Shannon capacity (15 points)
 
@@ -41,7 +43,7 @@ $
 
 *Part D.* Show that $nu (G_A times.square G_B) <= nu(G_A) nu(G_B)$.
 
-_Hint:_ Use the dual SDP.
+_Hint:_ Use the dual SDP and try to _Kronecker_ two feasible solutions using part C.
 
 *Part E.* Show that $nu (G) >= Theta(G)$ and use this to show $nu(C_5) = Theta(C_5) = sqrt(5)$.
 
