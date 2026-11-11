@@ -535,9 +535,11 @@ $
 	equiv& max_(gamma,lambda>=0) gamma text(" subject to ") mat(Q_a-lambda Q_b,(q_a-lambda q_b)/2;(q_a-lambda q_b)^top/2,c_a-gamma-lambda c_b) succ.eq 0
 $
 
-This needs a brief justification. $=>$ is clear. You might reasonably suspect we are asking for more than is necessary, e.g., $(x,0)^top M(x,0)>=0$ also, in the latter formulation. To complete the argument, say there exists $y$, $y^top M y<0$. Then,
-+ last coordinate of $y!=0$, then by rescaling there exists $x$ such that $(x,1)^top M(x,1)<0$.
-+ last coordinate of $y=0$, since $y^top M y$ is continuous, there exists $z$ with non-zero last coordinate with $z^top M z<0$.
+This needs a brief justification. In terms of feasible sets, $supset.eq$ is clear. You might reasonably suspect we are asking for more than what is necessary, e.g., $(x,0)^top M(x,0)>=0$ also, in the latter formulation. To complete the argument, say there exists $y$, $y^top M y<0$. Then,
++ last coordinate of $y!=0$, then by dividing by scaling there exists $x$ such that $(x,1)^top M(x,1)<0$.
++ last coordinate of $y=0$, since $y^top M y$ is continuous, there exists $z$ with non-zero last coordinate with $z^top M z<0$. We are back to the case above.
+
+== The Homogenous Case
 
 We will work towards proving the S-lemma. Let's start with something simpler.
 
@@ -553,59 +555,55 @@ We will work towards proving the S-lemma. Let's start with something simpler.
   Therefore, there exists $x$ such $x^top A x>=0$ and $x^top B x<0$.
 ]
 
+The following is a simplified version of the S-lemma without the linear or intercept terms.
+
 #theorem[Say $exists overline(x), overline(x)^top A overline(x)>0$. Then $forall x, x^top A x>=0 => x^top B x>=0$ implies $exists lambda>=0, B succ.eq lambda A$.]
 
 #proof[
-  Consider $OPT=min_(x: x^top A x>=0) x^top B x$. Say for all $x$, $x^top A x>=0$ $=>$ $x^top B x>=0$ and there exists $overline(x)$, $overline(x)^top A overline(x)>0$. Then $OPT=0$. Consider $OPT'=min_(x: x^top A x>=0, x^top x=n) x^top B x$. $OPT'$ is also strictly feasible; hence $OPT'>=0$.
-  #align(center)[
-    $equiv min_X tr(B X)$ subject to $tr(A X)>=0$, $tr(X)=n$, $X⪰0$, $X$ is rank 1.
-  ]
-
-  #align(center)[
-    $>= min_X tr(B X)$ subject to $tr(A X)>=0$, $tr(X)=n$, $X⪰0$ (SDP).
-  ]
-
-  #align(center)[
-    SDP dual is $max_(u,lambda>=0) n u$ subject to $B⪰u I+lambda A$.
-  ]
+	//Consider $OPT=min_(x: x^top A x>=0) x^top B x$. Say $forall x, x^top A x>=0 => x^top B x>=0$ and $exists overline(x)$, $overline(x)^top A overline(x)>0$. Then $OPT=0$ because $x=0$ is the best choice.  Note that $OPT'$ is also strictly feasible; hence $OPT'>=0$.
+	Consider $OPT'=min_(x: x^top A x>=0, x^top x=n) x^top B x$, which we can relax to an SDP as
+  $
+    OPT' &equiv min_X tr(B X) " subject to " tr(A X)>=0, tr(X)=n, X succ.eq 0, X " is rank 1."\
+    &>= min_X tr(B X) " subject to " tr(A X)>=0, tr(X)=n, X succ.eq 0 & "(SDP)"\
+    &equiv max_(u in RR,lambda>=0) n u " subject to " B succ.eq u I+lambda A. & "(dual)"
+  $
 
   #exercise[
-    Show that SDP dual is indeed the dual of the SDP.
+    Show that the SDP dual is indeed the dual of the SDP in the last step.
   ]
 
-  Let's say we guarantee that SDP $>=0$ and that strong duality holds. Then, we are done as then there exist $u,lambda>=0$ such $B⪰u I+lambda A$ and hence there exists $lambda>=0$, $B⪰lambda A$.
+  Let's say we guarantee that SDP $>=0$ and that the dual is solvable and strong duality holds. Then, we are done as then there exist $u,lambda>=0$ such $B succ.eq u I+lambda A$ and hence $B succ.eq lambda A$.
 
-  Take
+  For small enough $alpha>0$, we can guarantee that
   $ overline(X)=(overline(x)overline(x)^top+alpha I)/tr(overline(x)overline(x)^top+alpha I) n, $
-  for small enough $alpha>0$, is strictly feasible for SDP. And for all $lambda>0$, there exists $u$ such $B succ u I+lambda A$. Thus the SDP dual is also strictly feasible and strong duality holds.
+  is strictly feasible for the SDP. And for all $lambda>0$, there exists some negative enough $u$ such that $B succ u I+lambda A$. Thus the SDP dual is also strictly feasible and strong duality holds. (Why?)
 
-  #exercise[
-    In words, describe why adding $x^top x=n$ as a constraint was essential for this argument.
-  ]
-
-  Now to argue SDP $>=0$, observe: Compactness ensures that it is solvable; let $X^*$ be the solution. There exists $L$, $X=L L^top$. Consider that
-  $ tr(A X^*)=tr(L^top A L)>=0, $
-  and
-  $ tr(B X^*)=tr(L^top B L)=n u^*. $
-  If $u^*<0$, then by our sign lemma, there exists $x$ such $(L x)^top A(L x)>=0$ and $(L x)^top B(L x)<0$. But this contradicts for all $x$, $x^top A x>=0$ $=>$ $x^top B x>=0$.
+  Now to argue SDP $>=0$, compactness ensures that it is solvable; let $X^*$ be the solution. There exists $L$ such that $X^*=L L^top$. Consider that
+  $ tr(A X^*)=tr(L^top A L)>=0, " and " tr(B X^*)=tr(L^top B L)=n u^*. $
+  If $u^*>=0$, we are done. If $u^*<0$, then by our sign lemma, there exists $x$ such $(L x)^top A(L x)>=0$ and $(L x)^top B(L x)<0$. But this contradicts $forall x, x^top A x>=0 => x^top B x>=0$.
 ]
+
+#exercise[
+  In words, describe why adding $x^top x=n$ as a constraint was essential for this argument.
+
+  Can you think of an alternative proof that works without adding $x^top x = n$?
+]
+
+== Finishing up the General Case
 
 #proof(title: "Proof of the original theorem")[
   The idea is to use homogeneous polynomials.
 
-  $ overline(q)_a(x,t)=x^top Q_a x+q_a^top x t+c_a t^2. $
+  $ overline(q)_a (x,t)=x^top Q_a x+q_a^top x t+c_a t^2. $
 
-  $ overline(q)_b(x,t)=x^top Q_b x+q_b^top x t+c_b t^2. $
+  $ overline(q)_b (x,t)=x^top Q_b x+q_b^top x t+c_b t^2. $
 
-  Given there exists $x$ with $q_b(x)>0$, we have $overline(q)_b(x,1)>0$.
+  Given there exists $x$ with $q_b (x)>0$, we have $overline(q)_b (x,1)>0$.
 
-  We'll prove for all $(x,t)$, $overline(q)_b(x,t)>=0$ $=>$ $overline(q)_a(x,t)>=0$. If so, using our simplified S-lemma, there exists $lambda>=0$, $overline(q)_a(x,t)>=lambda overline(q)_b(x,t)$ for all $(x,t)$. Set $t=1$.
+  We'll prove $forall (x,t), overline(q)_b (x,t)>=0 => overline(q)_a (x,t)>=0$. If so, using our simplified S-lemma, we have that there exists $lambda>=0$, $overline(q)_a (x,t)>=lambda overline(q)_b (x,t)$ for all $(x,t)$. Set $t=1$ to finish the proof.
 
-  Let's say our sub-claim is untrue. Then, there exists $(x,t)$ such $overline(q)_b(x,t)>=0$ but $overline(q)_a(x,t)<0$. Consider
-  (1) $t!=0$. Then substituting $(x/t,1)$ results in contradiction.
-  (2) $t=0$, $overline(q)_b(x,t)>0$, by continuity there exists $(y,s)$ with $s!=0$ with $overline(q)_b(y,s)>=0$. Case (1) applies.
-]
-
-#exercise[
-  Argue why the remaining case $t=0$, $overline(q)_b(x,t)=0$ results in a contradiction too, completing the proof.
+  Let's say our sub-claim is untrue. Then, $exists (x,t)$ such that $overline(q)_b (x,t)>=0$ but $overline(q)_a (x,t)<0$. Let us consider the three possibilities:
+  - $t!=0$. Then substituting $(x/t,1)$ results in contradiction.
+  - $t=0$, $overline(q)_b (x,t)>0$, by continuity there exists $(y,s)$ with $s!=0$ and $overline(q)_b (y,s)>=0$. Case (1) applies.
+  - $t=0$, $overline(q)_b (x,t)=0$. It must then be that $x^top Q_b x=0$ and $x^top Q_a x<0$. Increase $t$ slightly in the direction of $q_b^top x$ (zero means anything works), so that $overline(q)_b (x,t) >= 0$, while retaining $overline(q)_a (x,t)<0$. This only fails if $q_b^top x=0$ and $c_b<0$, in which case, after slightly increasing $t$, scaling up $x$ enough can guarantees $overline(q)_b (x,t) >= 0$ and $overline(q)_a (x,t) < 0$ with a non-zero $t$. Case (1) applies again.
 ]
