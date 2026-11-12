@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="220" viewBox="15 35 720 220">
+<defs><marker id="arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0L7 3.5L0 7Z" fill="#526171"/></marker></defs>
+<style>.body{fill:#f3f6f9;stroke:#243343;stroke-width:1.8}.axis{fill:none;stroke:#526171;stroke-width:1.2}.slice{fill:#dfedf8;stroke:#3975a4;stroke-width:2}</style>
+
+
+<!-- The planar body is a shear of the symmetric one: every vertical
+     chord has exactly the same length before and after centering. -->
+<path class="body" d="M55 145Q185 5 315 85Q185 225 55 145Z"/>
+<path class="body" d="M435 145Q565 35 695 145Q565 255 435 145Z"/>
+<path class="axis" d="M35 145H330 M415 145H715" marker-end="url(#arrow)"/>
+
+<path class="axis" d="M120 55V235 M500 55V235" stroke-dasharray="5 4"/>
+
+
+<!-- At t=1/2 of the quadratic curves, x=185 and x=565. -->
+<path class="slice" d="M185 60V170" stroke-width="7"/>
+<path class="slice" d="M565 90V200" stroke-width="7"/>
+
+
+<path class="axis" d="M345 130H395" marker-end="url(#arrow)"/>
+
+
+</svg>

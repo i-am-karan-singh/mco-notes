@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="220" viewBox="0 0 400 220">
+  <!-- Planar equal-area model. The body is x^2+y^2 <= 1.
+       At x=0 the cone shares the diameter. Its tip is h=pi/2.
+       The backward base is at -h(sqrt(2)-1), with radius sqrt(2).
+       On each side of x=0, the cone and body have area pi/2.
+       Display scales: x=180+90u, y=110-52v. -->
+  <defs>
+    <marker id="transport-arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
+      <path d="M0 0L7 3.5L0 7L2 3.5Z" fill="#d8792a"/>
+    </marker>
+  </defs>
+  <ellipse cx="180" cy="110" rx="90" ry="52" fill="#e9f1f6"/>
+  <path d="M121.4419 36.4609L321.3717 110L121.4419 183.5391Z"
+        fill="#f5deca" fill-opacity=".55" stroke="#d8792a" stroke-width="1.6" stroke-linejoin="round"/>
+  <ellipse cx="180" cy="110" rx="90" ry="52" fill="none" stroke="#2874a6" stroke-width="1.6"/>
+  <path d="M68 110H349" fill="none" stroke="#000" stroke-width=".75"/>
+  <path d="M353 110L346 107L348 110L346 113Z" fill="#000"/>
+  <path d="M180 21V199" fill="none" stroke="#808080" stroke-width=".8" stroke-dasharray="4 4"/>
+  <path d="M180 58V162" fill="none" stroke="#000" stroke-width="1.2"/>
+  <path d="M104 86C92 49 106 28 133 44" fill="none" stroke="#d8792a" stroke-width="1.2" marker-end="url(#transport-arrow)"/>
+  <path d="M236 69C253 36 290 46 302 91" fill="none" stroke="#d8792a" stroke-width="1.2" marker-end="url(#transport-arrow)"/>
+</svg>

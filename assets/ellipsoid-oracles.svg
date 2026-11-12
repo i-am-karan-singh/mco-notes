@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="672" height="207" viewBox="44 24 672 207">
+<defs><marker id="arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0L7 3.5L0 7Z" fill="#526171"/></marker><pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><path d="M0 0V8" stroke="#a6b9ca" stroke-width="2"/></pattern></defs>
+<style>   .outline{fill:none;stroke:#243343;stroke-width:1.8} .axis{fill:none;stroke:#526171;stroke-width:1.2} .blue{fill:#e9f2fa;stroke:#3975a4;stroke-width:1.8} .orange{fill:none;stroke:#bd6327;stroke-width:2} .dash{stroke-dasharray:5 4}</style>
+
+<ellipse class="outline" cx="190" cy="128" rx="126" ry="77"/><path d="M190 51A126 77 0 0 0 190 205Z" fill="#e9f2fa"/><path class="outline" d="M115 99L195 74L246 136L194 181L117 163Z"/><path class="axis" d="M190 44V211"/><circle cx="190" cy="128" r="4"/><path class="axis" marker-end="url(#arrow)" d="M177 128H117"/>
+<ellipse class="outline" cx="570" cy="128" rx="126" ry="77"/><path d="M570 51A126 77 0 0 1 570 205Z" fill="#e9f2fa"/><path class="outline" d="M602 87L655 83L678 125L643 178L594 150Z"/><path class="axis" d="M570 44V211"/><circle cx="570" cy="128" r="4"/><path class="axis" marker-end="url(#arrow)" d="M580 128H620"/></svg>

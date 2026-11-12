@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="572" height="198" viewBox="94 29 572 198">
+<defs><marker id="arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0L7 3.5L0 7Z" fill="#526171"/></marker><pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><path d="M0 0V8" stroke="#a6b9ca" stroke-width="2"/></pattern></defs>
+<style>   .outline{fill:none;stroke:#243343;stroke-width:1.8} .axis{fill:none;stroke:#526171;stroke-width:1.2} .blue{fill:#e9f2fa;stroke:#3975a4;stroke-width:1.8} .orange{fill:none;stroke:#bd6327;stroke-width:2} .dash{stroke-dasharray:5 4}</style>
+
+<path d="M190 52A76 76 0 0 1 190 204Z" fill="url(#hatch)"/><circle class="outline" cx="190" cy="128" r="76"/><path class="axis" d="M190 52V204"/><circle cx="190" cy="52" r="3"/><circle cx="190" cy="204" r="3"/>
+<path d="M494 52H646V204Z" fill="url(#hatch)"/><rect class="outline" x="494" y="52" width="152" height="152"/><path class="axis" d="M494 52L646 204"/></svg>
